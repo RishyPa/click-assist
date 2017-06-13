@@ -11,10 +11,12 @@ namespace autoClick
         public const int MK_LBUTTON = 0x01; // 鼠标左键点击事件
         public const int MOUSEEVENTF_LEFTDOWN = 0x02;// 鼠标按下事件
         public const int MOUSEEVENTF_LEFTUP = 0x04;// 鼠标放开事件
-        public const int WM_LBUTTONDOWN = 0x201; //Left mousebutton down
-        public const int WM_LBUTTONUP = 0x202;  //Left mousebutton up
+        public const int WM_MOUSEMOVE = 0x0200; // 鼠标移动事件
+        public const int WM_LBUTTONDOWN = 0x0201; //Left mousebutton down
+        public const int WM_LBUTTONUP = 0x0202;  //Left mousebutton up
         public const int HOTKEY_ID_F9 = 100;// F9快捷键ID
         public const int HOTKEY_ID_F10 = 101;// F10快捷键ID
+        public const int HOTKEY_ID_F11 = 102;// F11快捷键ID
         public const int WM_HOTKEY = 0x0312;// 按快捷键 
 
         [Flags()]
@@ -92,5 +94,27 @@ namespace autoClick
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+
+        [DllImport("user32.dll")]
+        public static extern bool IsZoomed(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        public static extern bool IsIconic(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetCursorPos(out Point lpPoint);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetDC(IntPtr hwnd);
+
+        [DllImport("user32.dll")]
+        public static extern Int32 ReleaseDC(IntPtr hwnd, IntPtr hdc);
+
+        [DllImport("gdi32.dll")]
+        public static extern uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
+
+        [DllImport("user32.dll")]
+        public static extern bool UpdateWindow(IntPtr hwnd);
     }
 }
