@@ -1,70 +1,135 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using static autoClick.WinApi;
 
 namespace autoClick
 {
-    class Click
+    class Click : WinApi
     {
+        public struct PointInfo
+        {
+            public Point point; // 点信息
+            public int clickInterval; // 点击间隔
+            public string hexColorValue; // 16进制色值
+
+            public PointInfo(Point point) : this()
+            {
+                this.point = point;
+            }
+
+            public PointInfo(Point point, int clickInterval) : this()
+            {
+                this.point = point;
+                this.clickInterval = clickInterval;
+            }
+
+            public PointInfo(Point point, int clickInterval, string hexColorValue) : this()
+            {
+                this.point = point;
+                this.clickInterval = clickInterval;
+                this.hexColorValue = hexColorValue;
+            }
+        };
+
         public const string UNENABLE = "未开启";
         public const string ENABLE = "已开启";
-        public const string NUMBER_PATTERN = @"^[0-9]*[1-9][0-9]*$"; // 判断是否为整数
         public const string CLICKER_HEROES = "Clicker Heroes";
-
-        // 点击点列表
-        List<Point> pointList = new List<Point>();
 
         // 是否开始连点
         bool isStart = false;
 
-        // 点击间隔
-        int clickInterval;
+        Thread thread;
 
-        /***
+        // 点击间隔
+        uint scanInterval;
+
+        /**
          * 点击线程任务
          * 
          */
-        public void clickScheduler(string interval, Label label)
+        public void clickScheduler(string interval, Label label, Dictionary<int, List<PointInfo>> intervalPointDic)
         {
-            if (!Regex.IsMatch(interval, NUMBER_PATTERN))
+            // 转换为数字
+            if (!uint.TryParse(interval, out scanInterval))
             {
                 return;
             }
-            clickInterval = int.Parse(interval);
 
-            Thread t = new Thread(doClick);
-            t.Start();//调用主处理程序  
-            label.Text = isStart ? ENABLE : UNENABLE; // 切换显示文案
+            // 线程启用或终止
+            if (thread != null && thread.IsAlive)
+            {
+                isStart = false;
+                label.Text = UNENABLE; // 未开启
+                label.ForeColor = Color.Red;
+            }
+            else
+            {
+                isStart = true;
+                label.Text = ENABLE; // 已开启
+                label.ForeColor = Color.Green;
+                thread = new Thread(new ParameterizedThreadStart(doClick));
+                thread.Start(intervalPointDic);//调用主处理程序
+            }
         }
 
         /**
          * 点击主体
          */
-        public void doClick()
+        public void doClick(object intervalDicObj)
         {
-            // 若已经开始则停止,否则就开始
-            isStart = !isStart;
-            
-            if (!isStart)
+            Dictionary<int, long> intervalStampDic = new Dictionary<int, long>();
+            Dictionary<int, List<PointInfo>> intervalPointDic = (Dictionary<int, List<PointInfo>>)intervalDicObj;
+
+            if (intervalPointDic == null || intervalPointDic.Count == 0)
             {
                 return;
             }
 
-            int time = clickInterval;
+            foreach (int interval in intervalPointDic.Keys)
+            {
+                intervalStampDic.Add(interval, getUnixTimestamp());
+            }
+
+            int time = (int) scanInterval;
             IntPtr hwnd = getHandle();
-            Point point = getCurrPoint();
+            IntPtr hdc = GetDC(hwnd);
+            Int64 tmpTime;
             while (isStart)
             {
-                // mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
-                clickMouse(hwnd, point.X, point.Y);
+                foreach (int interval in intervalPointDic.Keys)
+                {
+                    tmpTime = getUnixTimestamp();
+                    if (tmpTime - intervalStampDic[interval] >= interval)
+                    {
+                        intervalStampDic[interval] = tmpTime;
+                        foreach (Click.PointInfo pointInfo in intervalPointDic[interval])
+                        {
+                            // 若有颜色条件且色值不相等，则放弃此次点击
+                            if (pointInfo.hexColorValue != null && 
+                                !pointInfo.hexColorValue.Equals(getHexColorValue(hdc, pointInfo.point)))
+                            {
+                                continue;
+                            }
+                            clickMouse(hwnd, pointInfo.point.X, pointInfo.point.Y);
+                        }
+                    }
+                }
 
                 Thread.Sleep(time);
             }
+
+            // 释放DC
+            ReleaseDC(hwnd, hdc);
+        }
+
+        /**
+         * 获取当前时间时间戳
+         */
+        private Int64 getUnixTimestamp()
+        {
+            return (Int64)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds;
         }
 
         /**
@@ -97,7 +162,7 @@ namespace autoClick
         }
 
         /**
-         * 获取当卡相对点
+         * 获取当前相对点
          */
         public Point getCurrPoint()
         {
@@ -106,8 +171,8 @@ namespace autoClick
 
             // 获取相对需点击窗口的相对位置
             Point point = new Point();
-            point.X = Control.MousePosition.X - windowPoint.X;
-            point.Y = Control.MousePosition.Y - windowPoint.Y;
+            point.X = Control.MousePosition.X - windowPoint.X - 8;
+            point.Y = Control.MousePosition.Y - windowPoint.Y - 31;
 
             return point;
         }
@@ -115,20 +180,27 @@ namespace autoClick
         /**
          * 添加点击点
          */
-        public void addPoint(DataGridView dataGridView)
+        public Click.PointInfo addPointInfo(bool hasColor)
         {
-            Point point = new Point();
+            Point point = getCurrPoint();
 
-            pointList.Add(point);
+            Click.PointInfo pointInfo = new Click.PointInfo(point);
+            if (hasColor)
+            {
+                IntPtr hwnd = getHandle();
+                IntPtr hdc = GetDC(hwnd);
+                pointInfo.hexColorValue = getHexColorValue(hdc, point);
 
-            clickMouse(getHandle(), point.X, point.Y);
+                ReleaseDC(hwnd, hdc);
+            }
+            //clickMouse(getHandle(), point.X, point.Y);
 
-            // 渲染至界面
-            int index = dataGridView.Rows.Add();
-            dataGridView.Rows[index].Cells[0].Value = point.X;
-            dataGridView.Rows[index].Cells[1].Value = point.Y;
+            return pointInfo;
         }
-
+        public void delPointInfo()
+        {
+ 
+        }
         /**
          * 鼠标左键点击效果
          */
@@ -136,6 +208,41 @@ namespace autoClick
         {
             PostMessage(h, WM_LBUTTONDOWN, MK_LBUTTON, MakeLParam(x, y));
             PostMessage(h, WM_LBUTTONUP, MK_LBUTTON, MakeLParam(x, y));
+            // PostMessage(h, WM_MOUSEMOVE, MK_LBUTTON, MakeLParam(0, 0));
         }
-    }
+
+        public void stopClick()
+        {
+            isStart = false;
+        }
+
+        public void test()
+        {
+            IntPtr hwnd = getHandle();
+
+            IntPtr hdc = GetDC(hwnd);
+
+            // UpdateWindow(hwnd);
+
+            uint pixel = GetPixel(hdc, 1107, 242);
+
+
+            Color color = Color.FromArgb((int)(pixel & 0x000000FF),
+                             (int)(pixel & 0x0000FF00) >> 8,
+                             (int)(pixel & 0x00FF0000) >> 16);
+
+
+        }
+
+        /**
+         * 获取对应点十六进制色值
+         */
+        public string getHexColorValue(IntPtr hdc, Point point)
+        {
+            uint pixelColor = GetPixel(hdc, point.X, point.Y); // 0x00bbggrr
+            uint hexColorValue = ((pixelColor & 0x000000FF) << 16) + (pixelColor & 0x0000FF00) + ((pixelColor & 0x00FF0000) >> 16); // rrggbb
+
+            return Convert.ToString(hexColorValue, 16).ToUpper();
+        }
+     }
 }
