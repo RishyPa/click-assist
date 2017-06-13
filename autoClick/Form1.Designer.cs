@@ -1,4 +1,6 @@
-﻿namespace autoClick
+﻿using System.Windows.Forms;
+
+namespace autoClick
 {
     partial class Form1
     {
@@ -41,15 +43,23 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.interval = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hexColorValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.list_title_text = new System.Windows.Forms.TextBox();
+            this.add_btn = new System.Windows.Forms.Button();
+            this.del_btn = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.update_btn = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(87, 39);
+            this.button1.Location = new System.Drawing.Point(89, 39);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -59,9 +69,9 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(87, 12);
+            this.textBox1.Location = new System.Drawing.Point(90, 12);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(75, 21);
+            this.textBox1.Size = new System.Drawing.Size(74, 21);
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = "1";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -69,11 +79,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 15);
+            this.label1.Location = new System.Drawing.Point(-1, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.Size = new System.Drawing.Size(89, 12);
             this.label1.TabIndex = 2;
-            this.label1.Text = "间隔时间";
+            this.label1.Text = "扫描点间隔时间";
             // 
             // label2
             // 
@@ -87,7 +97,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(168, 15);
+            this.label3.Location = new System.Drawing.Point(171, 15);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(17, 12);
             this.label3.TabIndex = 4;
@@ -119,47 +129,126 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
-            this.Column2});
+            this.Column2,
+            this.interval,
+            this.hexColorValue});
             this.dataGridView1.Location = new System.Drawing.Point(17, 95);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(243, 221);
+            this.dataGridView1.Size = new System.Drawing.Size(316, 221);
             this.dataGridView1.TabIndex = 6;
+            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
+            this.dataGridView1.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView1_CellValueChanged);
             // 
             // Column1
             // 
-            this.Column1.HeaderText = "x";
+            this.Column1.HeaderText = "X";
             this.Column1.Name = "Column1";
+            this.Column1.Width = 40;
             // 
             // Column2
             // 
-            this.Column2.HeaderText = "y";
+            this.Column2.HeaderText = "Y";
             this.Column2.Name = "Column2";
+            this.Column2.Width = 40;
+            // 
+            // interval
+            // 
+            this.interval.HeaderText = "时间间隔(ms)";
+            this.interval.Name = "interval";
+            // 
+            // hexColorValue
+            // 
+            this.hexColorValue.HeaderText = "16进制色值";
+            this.hexColorValue.Name = "hexColorValue";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(168, 44);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(95, 12);
+            this.label4.Size = new System.Drawing.Size(71, 12);
             this.label4.TabIndex = 3;
-            this.label4.Text = "按F10记录点击点";
+            this.label4.Text = "按F10记录点";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(219, 15);
+            this.label5.ForeColor = System.Drawing.Color.Red;
+            this.label5.Location = new System.Drawing.Point(194, 15);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(41, 12);
             this.label5.TabIndex = 7;
             this.label5.Text = "未开始";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(19, 69);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(64, 20);
+            this.comboBox1.TabIndex = 8;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // list_title_text
+            // 
+            this.list_title_text.Location = new System.Drawing.Point(91, 68);
+            this.list_title_text.Name = "list_title_text";
+            this.list_title_text.Size = new System.Drawing.Size(73, 21);
+            this.list_title_text.TabIndex = 9;
+            // 
+            // add_btn
+            // 
+            this.add_btn.Location = new System.Drawing.Point(170, 67);
+            this.add_btn.Name = "add_btn";
+            this.add_btn.Size = new System.Drawing.Size(30, 23);
+            this.add_btn.TabIndex = 10;
+            this.add_btn.Text = "增";
+            this.add_btn.UseVisualStyleBackColor = true;
+            this.add_btn.Click += new System.EventHandler(this.add_btn_Click);
+            // 
+            // del_btn
+            // 
+            this.del_btn.Location = new System.Drawing.Point(235, 67);
+            this.del_btn.Name = "del_btn";
+            this.del_btn.Size = new System.Drawing.Size(30, 23);
+            this.del_btn.TabIndex = 10;
+            this.del_btn.Text = "删";
+            this.del_btn.UseVisualStyleBackColor = true;
+            this.del_btn.Click += new System.EventHandler(this.del_btn_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(241, 44);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(107, 12);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "按F11记录点、色值";
+            // 
+            // update_btn
+            // 
+            this.update_btn.Location = new System.Drawing.Point(201, 67);
+            this.update_btn.Name = "update_btn";
+            this.update_btn.Size = new System.Drawing.Size(30, 23);
+            this.update_btn.TabIndex = 12;
+            this.update_btn.Text = "改";
+            this.update_btn.UseVisualStyleBackColor = true;
+            this.update_btn.Click += new System.EventHandler(this.update_btn_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(272, 323);
+            this.ClientSize = new System.Drawing.Size(345, 323);
+            this.Controls.Add(this.update_btn);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.del_btn);
+            this.Controls.Add(this.add_btn);
+            this.Controls.Add(this.list_title_text);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label3);
@@ -190,10 +279,18 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.Label label4;
         public System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TextBox list_title_text;
+        private System.Windows.Forms.Button add_btn;
+        private System.Windows.Forms.Button del_btn;
+        private DataGridViewTextBoxColumn Column1;
+        private DataGridViewTextBoxColumn Column2;
+        private DataGridViewTextBoxColumn interval;
+        private DataGridViewTextBoxColumn hexColorValue;
+        private Label label6;
+        private Button update_btn;
     }
 }
 
