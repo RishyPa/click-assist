@@ -26,9 +26,9 @@ namespace autoClick
                 case WinApi.WM_HOTKEY:
                     switch (m.WParam.ToInt32())
                     {
-                        case WinApi.HOTKEY_ID_F9: click.clickScheduler(textBox1.Text, label5, getPointListGroupByInterval()); break;
-                        case WinApi.HOTKEY_ID_F10: addPointToDataView(click.addPointInfo(false)); break;
-                        case WinApi.HOTKEY_ID_F11: addPointToDataView(click.addPointInfo(true)); break;
+                        case WinApi.HOTKEY_ID_F9  : click.clickScheduler(textBox1.Text, label5, getPointListGroupByInterval()); break;
+                        case WinApi.HOTKEY_ID_F10 : addPointToDataView(click.addPointInfo(false)); break;
+                        case WinApi.HOTKEY_ID_F11 : addPointToDataView(click.addPointInfo(true)); break;
                     }
                     break;
 
@@ -46,16 +46,12 @@ namespace autoClick
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            WinApi.RegisterHotKey(this.Handle, WinApi.HOTKEY_ID_F9, 0, Keys.F9);
-            WinApi.RegisterHotKey(this.Handle, WinApi.HOTKEY_ID_F10, 0, Keys.F10);
-            WinApi.RegisterHotKey(this.Handle, WinApi.HOTKEY_ID_F11, 0, Keys.F11);
+            registerAllHotKey();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            WinApi.UnregisterHotKey(this.Handle, WinApi.HOTKEY_ID_F9);
-            WinApi.UnregisterHotKey(this.Handle, WinApi.HOTKEY_ID_F10);
-            WinApi.UnregisterHotKey(this.Handle, WinApi.HOTKEY_ID_F11);
+            unregisterAllHotKey();
             click.stopClick();
         }
 
@@ -138,6 +134,21 @@ namespace autoClick
             }
         }
 
+        private void update_btn_Click(object sender, EventArgs e)
+        {
+
+            string title = list_title_text.Text;
+            if (!string.IsNullOrWhiteSpace(title) && !comboBox1.Items.Contains(title.Trim()))
+            {
+                pointListDic.Add(title, pointListDic[comboBox1.SelectedItem.ToString()]);
+                pointListDic.Remove(comboBox1.SelectedItem.ToString());
+                comboBox1.Items[comboBox1.SelectedIndex] = title;
+
+                // 保存信息
+                savePointInfo();
+            }
+        }
+
         /**
          * 计划切换事件
          */
@@ -171,12 +182,22 @@ namespace autoClick
          */
         private void bindHotKey()
         {
-            WinApi.UnregisterHotKey(this.Handle, WinApi.HOTKEY_ID_F9);
-            WinApi.UnregisterHotKey(this.Handle, WinApi.HOTKEY_ID_F10);
-            WinApi.UnregisterHotKey(this.Handle, WinApi.HOTKEY_ID_F11);
+            unregisterAllHotKey();
+            registerAllHotKey();
+        }
+
+        private void registerAllHotKey()
+        {
             WinApi.RegisterHotKey(this.Handle, WinApi.HOTKEY_ID_F9, 0, Keys.F9);
             WinApi.RegisterHotKey(this.Handle, WinApi.HOTKEY_ID_F10, 0, Keys.F10);
             WinApi.RegisterHotKey(this.Handle, WinApi.HOTKEY_ID_F11, 0, Keys.F11);
+        }
+
+        private void unregisterAllHotKey()
+        {
+            WinApi.UnregisterHotKey(this.Handle, WinApi.HOTKEY_ID_F9);
+            WinApi.UnregisterHotKey(this.Handle, WinApi.HOTKEY_ID_F10);
+            WinApi.UnregisterHotKey(this.Handle, WinApi.HOTKEY_ID_F11);
         }
 
         /**
@@ -368,21 +389,6 @@ namespace autoClick
 
             string text = JsonConvert.SerializeObject(pointListDic);
             File.WriteAllText(path, text, Encoding.UTF8);
-        }
-
-        private void update_btn_Click(object sender, EventArgs e)
-        {
-            
-            string title = list_title_text.Text;
-            if (!string.IsNullOrWhiteSpace(title) && !comboBox1.Items.Contains(title.Trim()))
-            {
-                pointListDic.Add(title, pointListDic[comboBox1.SelectedItem.ToString()]);
-                pointListDic.Remove(comboBox1.SelectedItem.ToString());
-                comboBox1.Items[comboBox1.SelectedIndex] = title;
-
-                // 保存信息
-                savePointInfo();
-            }
         }
     }
 }

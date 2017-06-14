@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace autoClick
 {
-    class Click : WinApi
+    class Click
     {
         public struct PointInfo
         {
@@ -94,7 +94,7 @@ namespace autoClick
 
             int time = (int) scanInterval;
             IntPtr hwnd = getHandle();
-            IntPtr hdc = GetDC(hwnd);
+            IntPtr hdc = WinApi.GetDC(hwnd);
             Int64 tmpTime;
             while (isStart)
             {
@@ -121,7 +121,7 @@ namespace autoClick
             }
 
             // 释放DC
-            ReleaseDC(hwnd, hdc);
+            WinApi.ReleaseDC(hwnd, hdc);
         }
 
         /**
@@ -138,7 +138,7 @@ namespace autoClick
         public IntPtr getHandle()
         {
             // 【1】找到窗口
-            IntPtr hwnd = FindWindow(null, CLICKER_HEROES); // CLICKER_HEROES
+            IntPtr hwnd = WinApi.FindWindow(null, CLICKER_HEROES); // CLICKER_HEROES
             if (hwnd == IntPtr.Zero)
             {
                 MessageBox.Show("没有找到对应的窗口");
@@ -155,8 +155,8 @@ namespace autoClick
             IntPtr hwnd = getHandle();
 
             // 【2】获取窗口当前坐标
-            Rect rect = new Rect();
-            GetWindowRect(hwnd, out rect);
+            WinApi.Rect rect = new WinApi.Rect();
+            WinApi.GetWindowRect(hwnd, out rect);
 
             return new Point(rect.Left, rect.Top);
         }
@@ -188,26 +188,23 @@ namespace autoClick
             if (hasColor)
             {
                 IntPtr hwnd = getHandle();
-                IntPtr hdc = GetDC(hwnd);
+                IntPtr hdc = WinApi.GetDC(hwnd);
                 pointInfo.hexColorValue = getHexColorValue(hdc, point);
 
-                ReleaseDC(hwnd, hdc);
+                WinApi.ReleaseDC(hwnd, hdc);
             }
             //clickMouse(getHandle(), point.X, point.Y);
 
             return pointInfo;
         }
-        public void delPointInfo()
-        {
- 
-        }
+
         /**
          * 鼠标左键点击效果
          */
         public void clickMouse(IntPtr h, int x, int y)
         {
-            PostMessage(h, WM_LBUTTONDOWN, MK_LBUTTON, MakeLParam(x, y));
-            PostMessage(h, WM_LBUTTONUP, MK_LBUTTON, MakeLParam(x, y));
+            WinApi.PostMessage(h, WinApi.WM_LBUTTONDOWN, WinApi.MK_LBUTTON, WinApi.MakeLParam(x, y));
+            WinApi.PostMessage(h, WinApi.WM_LBUTTONUP, WinApi.MK_LBUTTON, WinApi.MakeLParam(x, y));
             // PostMessage(h, WM_MOUSEMOVE, MK_LBUTTON, MakeLParam(0, 0));
         }
 
@@ -220,11 +217,11 @@ namespace autoClick
         {
             IntPtr hwnd = getHandle();
 
-            IntPtr hdc = GetDC(hwnd);
+            IntPtr hdc = WinApi.GetDC(hwnd);
 
             // UpdateWindow(hwnd);
 
-            uint pixel = GetPixel(hdc, 1107, 242);
+            uint pixel = WinApi.GetPixel(hdc, 1107, 242);
 
 
             Color color = Color.FromArgb((int)(pixel & 0x000000FF),
@@ -239,7 +236,7 @@ namespace autoClick
          */
         public string getHexColorValue(IntPtr hdc, Point point)
         {
-            uint pixelColor = GetPixel(hdc, point.X, point.Y); // 0x00bbggrr
+            uint pixelColor = WinApi.GetPixel(hdc, point.X, point.Y); // 0x00bbggrr
             uint hexColorValue = ((pixelColor & 0x000000FF) << 16) + (pixelColor & 0x0000FF00) + ((pixelColor & 0x00FF0000) >> 16); // rrggbb
 
             return Convert.ToString(hexColorValue, 16).ToUpper();
