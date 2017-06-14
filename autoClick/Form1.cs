@@ -134,6 +134,21 @@ namespace autoClick
             }
         }
 
+        private void update_btn_Click(object sender, EventArgs e)
+        {
+
+            string title = list_title_text.Text;
+            if (!string.IsNullOrWhiteSpace(title) && !comboBox1.Items.Contains(title.Trim()))
+            {
+                pointListDic.Add(title, pointListDic[comboBox1.SelectedItem.ToString()]);
+                pointListDic.Remove(comboBox1.SelectedItem.ToString());
+                comboBox1.Items[comboBox1.SelectedIndex] = title;
+
+                // 保存信息
+                savePointInfo();
+            }
+        }
+
         /**
          * 计划切换事件
          */
@@ -143,6 +158,7 @@ namespace autoClick
 
             if (!string.IsNullOrWhiteSpace(selectedValue))
             {
+                list_title_text.Text = selectedValue;
                 switchDataView(getPointIntervalList(pointListDic, selectedValue));
             }
         }

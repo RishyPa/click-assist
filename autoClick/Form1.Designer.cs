@@ -52,6 +52,7 @@ namespace autoClick
             this.add_btn = new System.Windows.Forms.Button();
             this.del_btn = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
+            this.update_btn = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -174,7 +175,7 @@ namespace autoClick
             // 
             this.label5.AutoSize = true;
             this.label5.ForeColor = System.Drawing.Color.Red;
-            this.label5.Location = new System.Drawing.Point(196, 15);
+            this.label5.Location = new System.Drawing.Point(194, 15);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(41, 12);
             this.label5.TabIndex = 7;
@@ -210,7 +211,7 @@ namespace autoClick
             // 
             // del_btn
             // 
-            this.del_btn.Location = new System.Drawing.Point(206, 67);
+            this.del_btn.Location = new System.Drawing.Point(235, 67);
             this.del_btn.Name = "del_btn";
             this.del_btn.Size = new System.Drawing.Size(30, 23);
             this.del_btn.TabIndex = 10;
@@ -227,11 +228,22 @@ namespace autoClick
             this.label6.TabIndex = 11;
             this.label6.Text = "按F11记录点、色值";
             // 
+            // update_btn
+            // 
+            this.update_btn.Location = new System.Drawing.Point(201, 67);
+            this.update_btn.Name = "update_btn";
+            this.update_btn.Size = new System.Drawing.Size(30, 23);
+            this.update_btn.TabIndex = 12;
+            this.update_btn.Text = "改";
+            this.update_btn.UseVisualStyleBackColor = true;
+            this.update_btn.Click += new System.EventHandler(this.update_btn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(345, 323);
+            this.Controls.Add(this.update_btn);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.del_btn);
             this.Controls.Add(this.add_btn);
@@ -278,6 +290,7 @@ namespace autoClick
         private DataGridViewTextBoxColumn interval;
         private DataGridViewTextBoxColumn hexColorValue;
         private Label label6;
+        private Button update_btn;
     }
 }
 
