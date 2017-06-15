@@ -59,10 +59,9 @@ namespace autoClick
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(119, 49);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Location = new System.Drawing.Point(89, 39);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 29);
+            this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
             this.button1.Text = "开始";
             this.button1.UseVisualStyleBackColor = true;
@@ -70,41 +69,37 @@ namespace autoClick
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(120, 15);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox1.Location = new System.Drawing.Point(90, 12);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(97, 25);
+            this.textBox1.Size = new System.Drawing.Size(74, 21);
             this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "1";
+            this.textBox1.Text = "10";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(-1, 19);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(-1, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 15);
+            this.label1.Size = new System.Drawing.Size(89, 12);
             this.label1.TabIndex = 2;
             this.label1.Text = "扫描点间隔时间";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 55);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(17, 44);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(68, 15);
+            this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 3;
             this.label2.Text = "按F9开始";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(228, 19);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(171, 15);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(23, 15);
+            this.label3.Size = new System.Drawing.Size(17, 12);
             this.label3.TabIndex = 4;
             this.label3.Text = "ms";
             // 
@@ -121,12 +116,12 @@ namespace autoClick
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(105, 28);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(97, 26);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(104, 24);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -143,11 +138,10 @@ namespace autoClick
             this.Column2,
             this.interval,
             this.hexColorValue});
-            this.dataGridView1.Location = new System.Drawing.Point(2, 117);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridView1.Location = new System.Drawing.Point(2, 94);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(455, 287);
+            this.dataGridView1.Size = new System.Drawing.Size(341, 230);
             this.dataGridView1.TabIndex = 6;
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView1_CellValueChanged);
@@ -175,10 +169,9 @@ namespace autoClick
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(224, 55);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(168, 44);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(91, 15);
+            this.label4.Size = new System.Drawing.Size(71, 12);
             this.label4.TabIndex = 3;
             this.label4.Text = "按F10记录点";
             // 
@@ -186,10 +179,9 @@ namespace autoClick
             // 
             this.label5.AutoSize = true;
             this.label5.ForeColor = System.Drawing.Color.Red;
-            this.label5.Location = new System.Drawing.Point(259, 19);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(194, 15);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(52, 15);
+            this.label5.Size = new System.Drawing.Size(41, 12);
             this.label5.TabIndex = 7;
             this.label5.Text = "未开始";
             // 
@@ -198,27 +190,24 @@ namespace autoClick
             this.comboBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(25, 86);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox1.Location = new System.Drawing.Point(19, 69);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(84, 23);
+            this.comboBox1.Size = new System.Drawing.Size(64, 20);
             this.comboBox1.TabIndex = 8;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // list_title_text
             // 
-            this.list_title_text.Location = new System.Drawing.Point(121, 85);
-            this.list_title_text.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.list_title_text.Location = new System.Drawing.Point(91, 68);
             this.list_title_text.Name = "list_title_text";
-            this.list_title_text.Size = new System.Drawing.Size(96, 25);
+            this.list_title_text.Size = new System.Drawing.Size(73, 21);
             this.list_title_text.TabIndex = 9;
             // 
             // add_btn
             // 
-            this.add_btn.Location = new System.Drawing.Point(227, 84);
-            this.add_btn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.add_btn.Location = new System.Drawing.Point(170, 67);
             this.add_btn.Name = "add_btn";
-            this.add_btn.Size = new System.Drawing.Size(40, 29);
+            this.add_btn.Size = new System.Drawing.Size(30, 23);
             this.add_btn.TabIndex = 10;
             this.add_btn.Text = "增";
             this.add_btn.UseVisualStyleBackColor = true;
@@ -226,10 +215,9 @@ namespace autoClick
             // 
             // del_btn
             // 
-            this.del_btn.Location = new System.Drawing.Point(313, 84);
-            this.del_btn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.del_btn.Location = new System.Drawing.Point(235, 67);
             this.del_btn.Name = "del_btn";
-            this.del_btn.Size = new System.Drawing.Size(40, 29);
+            this.del_btn.Size = new System.Drawing.Size(30, 23);
             this.del_btn.TabIndex = 10;
             this.del_btn.Text = "删";
             this.del_btn.UseVisualStyleBackColor = true;
@@ -238,19 +226,17 @@ namespace autoClick
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(321, 55);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Location = new System.Drawing.Point(241, 44);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(136, 15);
+            this.label6.Size = new System.Drawing.Size(107, 12);
             this.label6.TabIndex = 11;
             this.label6.Text = "按F11记录点、色值";
             // 
             // update_btn
             // 
-            this.update_btn.Location = new System.Drawing.Point(268, 84);
-            this.update_btn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.update_btn.Location = new System.Drawing.Point(201, 67);
             this.update_btn.Name = "update_btn";
-            this.update_btn.Size = new System.Drawing.Size(40, 29);
+            this.update_btn.Size = new System.Drawing.Size(30, 23);
             this.update_btn.TabIndex = 12;
             this.update_btn.Text = "改";
             this.update_btn.UseVisualStyleBackColor = true;
@@ -258,9 +244,9 @@ namespace autoClick
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(460, 404);
+            this.ClientSize = new System.Drawing.Size(345, 323);
             this.Controls.Add(this.update_btn);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.del_btn);
@@ -275,7 +261,6 @@ namespace autoClick
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "鼠标连点器";
             this.Load += new System.EventHandler(this.Form1_Load);

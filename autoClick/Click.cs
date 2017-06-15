@@ -14,18 +14,21 @@ namespace autoClick
             public int clickInterval; // 点击间隔
             public string hexColorValue; // 16进制色值
 
-            public PointInfo(Point point) : this()
+            public PointInfo(Point point)
+                : this()
             {
                 this.point = point;
             }
 
-            public PointInfo(Point point, int clickInterval) : this()
+            public PointInfo(Point point, int clickInterval)
+                : this()
             {
                 this.point = point;
                 this.clickInterval = clickInterval;
             }
 
-            public PointInfo(Point point, int clickInterval, string hexColorValue) : this()
+            public PointInfo(Point point, int clickInterval, string hexColorValue)
+                : this()
             {
                 this.point = point;
                 this.clickInterval = clickInterval;
@@ -92,10 +95,11 @@ namespace autoClick
                 intervalStampDic.Add(interval, getUnixTimestamp());
             }
 
-            int time = (int) scanInterval;
+            int time = (int)scanInterval;
             IntPtr hwnd = getHandle();
             IntPtr hdc = WinApi.GetDC(hwnd);
             Int64 tmpTime;
+            string tempcolor = "";
             while (isStart)
             {
                 foreach (int interval in intervalPointDic.Keys)
@@ -104,13 +108,23 @@ namespace autoClick
                     if (tmpTime - intervalStampDic[interval] >= interval)
                     {
                         intervalStampDic[interval] = tmpTime;
-                        foreach (Click.PointInfo pointInfo in intervalPointDic[interval])
+                        for (int i = 0; i < intervalPointDic[interval].Count; i++)
                         {
+                            Click.PointInfo pointInfo = intervalPointDic[interval][i];
                             // 若有颜色条件且色值不相等，则放弃此次点击
-                            if (pointInfo.hexColorValue != null && 
-                                !pointInfo.hexColorValue.Equals(getHexColorValue(hdc, pointInfo.point)))
+                            if (pointInfo.hexColorValue != null)
+                                tempcolor = getHexColorValue(hdc, pointInfo.point);
+                            if (pointInfo.hexColorValue != null &&
+                                pointInfo.hexColorValue.Equals(tempcolor))
                             {
                                 continue;
+                            }
+                            if (pointInfo.hexColorValue != null &&
+                               !pointInfo.hexColorValue.Equals(tempcolor))
+                            {
+                                //System.IO.File.AppendAllText("click.log", String.Format("{0}:发现颜色改变\r\n",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+                                pointInfo.hexColorValue = tempcolor;
+
                             }
                             clickMouse(hwnd, pointInfo.point.X, pointInfo.point.Y);
                         }
@@ -261,5 +275,5 @@ namespace autoClick
 
             return Convert.ToString(hexColorValue, 16).ToUpper();
         }
-     }
+    }
 }
