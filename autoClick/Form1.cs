@@ -28,7 +28,10 @@ namespace autoClick
                     {
                         case WinApi.HOTKEY_ID_F9  : click.clickScheduler(textBox1.Text, label5, getPointListGroupByInterval()); break;
                         case WinApi.HOTKEY_ID_F10 : addPointToDataView(click.addPointInfo(false)); break;
-                        case WinApi.HOTKEY_ID_F11 : addPointToDataView(click.addPointInfo(true)); break;
+                        case WinApi.HOTKEY_ID_F11 : 
+                            addPointToDataView(click.addPointInfo(true));
+                            //addPointToDataView(click.addPointInfoFullScreen(true)); 
+                            break;
                     }
                     break;
 

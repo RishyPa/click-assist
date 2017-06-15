@@ -199,6 +199,26 @@ namespace autoClick
         }
 
         /**
+         * 添加全屏点击点
+         */
+        public Click.PointInfo addPointInfoFullScreen(bool hasColor)
+        {
+            Point point = new Point(Control.MousePosition.X, Control.MousePosition.Y);
+
+            Click.PointInfo pointInfo = new Click.PointInfo(point);
+            if (hasColor)
+            {
+                IntPtr hwnd = new IntPtr(0);
+                IntPtr hdc = WinApi.GetDC(hwnd);
+                pointInfo.hexColorValue = getHexColorValue(hdc, point);
+
+                WinApi.ReleaseDC(hwnd, hdc);
+            }
+            //clickMouse(getHandle(), point.X, point.Y);
+
+            return pointInfo;
+        }
+        /**
          * 鼠标左键点击效果
          */
         public void clickMouse(IntPtr h, int x, int y)
