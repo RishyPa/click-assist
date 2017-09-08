@@ -8,12 +8,23 @@ namespace autoClick
 {
     class Click
     {
+        public struct HwndInfo
+        {
+            public IntPtr Hwnd;//句柄
+            public IntPtr Hdc;//设备
+            public HwndInfo(IntPtr hwnd, IntPtr hdc)
+                :this()
+            {
+                this.Hwnd = hwnd;
+                this.Hdc = hdc;
+            }
+        }
         public struct PointInfo
         {
             public Point point; // 点信息
             public int clickInterval; // 点击间隔
             public string hexColorValue; // 16进制色值
-
+            public string windowText;
             public PointInfo(Point point)
                 : this()
             {
@@ -27,19 +38,31 @@ namespace autoClick
                 this.clickInterval = clickInterval;
             }
 
-            public PointInfo(Point point, int clickInterval, string hexColorValue)
+            public PointInfo(Point point, int clickInterval,String windowtext,int i)
+                : this()
+            {
+                this.point = point;
+                this.clickInterval = clickInterval;
+                this.windowText = windowtext;
+            }
+
+            public PointInfo(Point point, int clickInterval, string hexColorValue, String windowtext)
                 : this()
             {
                 this.point = point;
                 this.clickInterval = clickInterval;
                 this.hexColorValue = hexColorValue;
+                this.windowText = windowtext;
             }
         };
 
         public const string UNENABLE = "未开启";
         public const string ENABLE = "已开启";
-        public const string CLICKER_HEROES = "Clicker Heroes";
-
+        public string CLICKER_HEROES = "Clicker Heroes";
+        public void SetWindowText(String text)
+        {
+            this.CLICKER_HEROES = text;
+        }
         // 是否开始连点
         bool isStart = false;
 
@@ -76,7 +99,12 @@ namespace autoClick
                 thread.Start(intervalPointDic);//调用主处理程序
             }
         }
-
+        public HwndInfo getHwndInfo(String windowtext)
+        {
+            IntPtr hwnd = getHandle(windowtext);
+            IntPtr hdc = WinApi.GetDC(hwnd);
+            return new HwndInfo(hwnd, hdc);
+        }
         /**
          * 点击主体
          */
@@ -84,22 +112,35 @@ namespace autoClick
         {
             Dictionary<int, long> intervalStampDic = new Dictionary<int, long>();
             Dictionary<int, List<PointInfo>> intervalPointDic = (Dictionary<int, List<PointInfo>>)intervalDicObj;
-
+            Dictionary<String, HwndInfo> hwndDic = new Dictionary<string, HwndInfo>();
             if (intervalPointDic == null || intervalPointDic.Count == 0)
             {
                 return;
             }
-
+            String widowtext = "";
             foreach (int interval in intervalPointDic.Keys)
             {
                 intervalStampDic.Add(interval, getUnixTimestamp());
+                List<PointInfo> temp = intervalPointDic[interval];
+                for (int i=0;i< temp.Count;i++)
+                {
+                    if (temp[i].windowText == null || temp[i].windowText == "")//兼容以前无windtext对象的记录
+                    {
+                        widowtext = "Clicker Heroes";
+                    }
+                    else
+                        widowtext = temp[i].windowText;
+                    if(!hwndDic.ContainsKey(widowtext))
+                    {
+                        hwndDic.Add(widowtext, getHwndInfo(widowtext));
+                    }
+                }
             }
 
             int time = (int)scanInterval;
-            IntPtr hwnd = getHandle();
-            IntPtr hdc = WinApi.GetDC(hwnd);
             Int64 tmpTime;
             string tempcolor = "";
+           
             while (isStart)
             {
                 foreach (int interval in intervalPointDic.Keys)
@@ -111,6 +152,19 @@ namespace autoClick
                         for (int i = 0; i < intervalPointDic[interval].Count; i++)
                         {
                             Click.PointInfo pointInfo = intervalPointDic[interval][i];
+                            IntPtr hwnd=IntPtr.Zero;
+                            IntPtr hdc= IntPtr.Zero;
+                            if (pointInfo.windowText == null || pointInfo.windowText == "")//兼容以前无windtext对象的记录
+                            {
+                                widowtext = "Clicker Heroes";
+                            }
+                            else
+                                widowtext = pointInfo.windowText;
+                            if (hwndDic.ContainsKey(widowtext))
+                            {
+                                hwnd = hwndDic[widowtext].Hwnd;
+                                hdc = hwndDic[widowtext].Hdc;
+                            }
                             // 若有颜色条件且色值不相等，则放弃此次点击
                             if (pointInfo.hexColorValue != null)
                                 tempcolor = getHexColorValue(hdc, pointInfo.point);
@@ -135,7 +189,10 @@ namespace autoClick
             }
 
             // 释放DC
-            WinApi.ReleaseDC(hwnd, hdc);
+            foreach (String key in hwndDic.Keys)
+            {
+                WinApi.ReleaseDC(hwndDic[key].Hwnd, hwndDic[key].Hdc);
+            }
         }
 
         /**
@@ -155,12 +212,25 @@ namespace autoClick
             IntPtr hwnd = WinApi.FindWindow(null, CLICKER_HEROES); // CLICKER_HEROES
             if (hwnd == IntPtr.Zero)
             {
-                MessageBox.Show("没有找到对应的窗口");
+               // MessageBox.Show("没有找到对应的窗口");
             }
 
             return hwnd;
         }
+        /**
+         * 获取句柄
+         */
+        public IntPtr getHandle(String widowText)
+        {
+            // 【1】找到窗口
+            IntPtr hwnd = WinApi.FindWindow(null, widowText); // CLICKER_HEROES
+            if (hwnd == IntPtr.Zero)
+            {
+                // MessageBox.Show("没有找到对应的窗口");
+            }
 
+            return hwnd;
+        }
         /**
           * 获取窗口右上角坐标
           */
@@ -199,6 +269,7 @@ namespace autoClick
             Point point = getCurrPoint();
 
             Click.PointInfo pointInfo = new Click.PointInfo(point);
+            pointInfo.windowText = this.CLICKER_HEROES;
             if (hasColor)
             {
                 IntPtr hwnd = getHandle();
@@ -237,6 +308,8 @@ namespace autoClick
          */
         public void clickMouse(IntPtr h, int x, int y)
         {
+            if (h == IntPtr.Zero)
+                return;
             WinApi.PostMessage(h, WinApi.WM_LBUTTONDOWN, WinApi.MK_LBUTTON, WinApi.MakeLParam(x, y));
             WinApi.PostMessage(h, WinApi.WM_LBUTTONUP, WinApi.MK_LBUTTON, WinApi.MakeLParam(x, y));
             // PostMessage(h, WM_MOUSEMOVE, MK_LBUTTON, MakeLParam(0, 0));

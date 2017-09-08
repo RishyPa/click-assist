@@ -50,6 +50,7 @@ namespace autoClick
         private void Form1_Load(object sender, EventArgs e)
         {
             registerAllHotKey();
+            this.button1.PerformClick();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -221,6 +222,7 @@ namespace autoClick
          */ 
         private void addPointToDataView(Click.PointInfo pointInfo)
         {
+            click.SetWindowText(windowText.SelectedItem.ToString().Trim());
             string selectText = (string) comboBox1.SelectedItem;
 
             if (string.IsNullOrWhiteSpace(selectText))
@@ -249,6 +251,7 @@ namespace autoClick
                 dataGridView1.Rows[index].Cells[1].Value = pointInfo.point.Y;
                 dataGridView1.Rows[index].Cells[2].Value = pointInfo.clickInterval;
                 dataGridView1.Rows[index].Cells[3].Value = pointInfo.hexColorValue;
+                dataGridView1.Rows[index].Cells[4].Value = pointInfo.windowText;
             }
         }
 
@@ -283,6 +286,7 @@ namespace autoClick
             object YObj;
             object intervalObj;
             object hexColorValueObj;
+            object windowText;
             uint X;
             uint Y;
             uint clickInterval;
@@ -295,7 +299,11 @@ namespace autoClick
                 YObj = dataGridView1.Rows[i].Cells[1].Value;
                 intervalObj = dataGridView1.Rows[i].Cells[2].Value;
                 hexColorValueObj = dataGridView1.Rows[i].Cells[3].Value;
-
+                windowText = dataGridView1.Rows[i].Cells[4].Value;
+                if (windowText == null || windowText.ToString().Trim() == "")
+                {
+                    windowText = "Clicker Heroes";
+                } 
                 if (XObj != null && YObj != null && intervalObj != null
                     && uint.TryParse(XObj.ToString(), out X)
                     && uint.TryParse(YObj.ToString(), out Y)
@@ -304,11 +312,11 @@ namespace autoClick
                     point = new Point((int)X, (int)Y);
                     if (hexColorValueObj != null && hexColorValueObj.ToString().Length == 6)
                     {
-                        pointInterval = new Click.PointInfo(point, (int)clickInterval, hexColorValueObj.ToString());
+                        pointInterval = new Click.PointInfo(point, (int)clickInterval, hexColorValueObj.ToString(), windowText.ToString());
                     }
                     else
-                    { 
-                        pointInterval = new Click.PointInfo(point, (int)clickInterval);
+                    {
+                        pointInterval = new Click.PointInfo(point, (int)clickInterval, windowText.ToString(), 1);
                     }
                     pointList.Add(pointInterval);
                 }
@@ -392,6 +400,17 @@ namespace autoClick
 
             string text = JsonConvert.SerializeObject(pointListDic);
             File.WriteAllText(path, text, Encoding.UTF8);
+        }
+
+        private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)
+        {
+            this.notifyIcon1.Dispose();
+            System.Environment.Exit(0);//这是最彻底的退出方式，不管什么线程都被强制退出，把程序结束的很干净。
+        }
+
+        private void windowText_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            click.SetWindowText(windowText.SelectedItem.ToString().Trim());
         }
     }
 }
