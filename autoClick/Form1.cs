@@ -430,7 +430,9 @@ namespace autoClick
 
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            click.checkClikHero(1100, 630);
+            WinApi.Rect rect = new WinApi.Rect();
+            WinApi.GetWindowRect(click.getHandle(), out rect);
+            click.checkClikHero(rect.Right-50, rect.Bottom-50);
         }
     }
 }

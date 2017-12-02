@@ -125,19 +125,20 @@ namespace autoClick
                     {
                         point.Y = Y;
                         hsv = getHSVColorValue(hdc, point);
-                        Int32 H = (int)hsv.H;
-                        if (H==23&&hsv.S>0.9&&hsv.S<0.96&&hsv.V>0.5&&hsv.V<0.7)
+                        Int32 H = (int)Math.Round(hsv.H, 0);
+                        if ((H == 23 && hsv.S > 0.9 && hsv.S < 0.96 && hsv.V > 0.5 && hsv.V < 0.7) || (H == 23 && hsv.S >= 1 && hsv.V < 0.5 && hsv.V > 0.4) || (H == 22 && hsv.S > 0.99 && hsv.S <= 1 && hsv.V < 0.5 && hsv.V > 0.4))
                         {
-                            System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色符合点颜色值H:{1}S:{2}V:{3}\r\n",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                            System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色符合点颜色值H:{1}S:{2}V:{3}\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
                 , hsv.H
                 , hsv.S
                 , hsv.V));
                             System.IO.File.AppendAllText("click.log", String.Format("{0}:发现颜色符合，位置（{1},{2}）\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), X.ToString(), Y.ToString()));
-                            clickMouse(hwnd, X, Y);
+                            if (X < 1098)
+                                clickMouse(hwnd, X, Y);
                             //System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测结束\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
                             //return;
                         }
-                        
+
                         /*tempcolor = getHexColorValue(hdc, point);
                         if (tempcolor == "F66B14" || tempcolor == "FA6F18" || tempcolor == "F78401" || tempcolor == "EF480A")
                         {
@@ -378,34 +379,37 @@ namespace autoClick
 
             //Color color = getColorValue(hdc, new Point(220, 198));
             Point point = new Point();
-            point.X = 361;
-            point.Y = 109;
+            point.X = 392;
+            point.Y = 610;
             String s = getHexColorValue(hdc, point);
+
             HSVColor hsv = getHSVColorValue(hdc, point);
-            System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色测试点值{1},H:{2}S:{3}V:{4}\r\n"
+            Int32 H = (int)Math.Round(hsv.H, 0);
+            System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色测试点值{1},H:{2}S:{3}V:{4};(int)H-{5}\r\n"
                 , DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
                 , s
                 , hsv.H
                 , hsv.S
-                , hsv.V));
-           /* for (Int32 X = 1000; X < 1046; X++)
-            {
-                point.X = X;
-                for (Int32 Y = 591; Y < 633; Y++)
-                {
-                    point.Y = Y;
-                    String s = getHexColorValue(hdc, point);
-                    HSVColor hsv = getHSVColorValue(hdc, point);
-                    System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色测试点值{1},H:{2}S:{3}V:{4}\r\n"
-                        , DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
-                        , s
-                        , hsv.H
-                        , hsv.S
-                        , hsv.V));
-                }
-            }*/
+                , hsv.V
+                , H));
+            /* for (Int32 X = 1000; X < 1046; X++)
+             {
+                 point.X = X;
+                 for (Int32 Y = 591; Y < 633; Y++)
+                 {
+                     point.Y = Y;
+                     String s = getHexColorValue(hdc, point);
+                     HSVColor hsv = getHSVColorValue(hdc, point);
+                     System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色测试点值{1},H:{2}S:{3}V:{4}\r\n"
+                         , DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                         , s
+                         , hsv.H
+                         , hsv.S
+                         , hsv.V));
+                 }
+             }*/
             WinApi.ReleaseDC(hwnd, hdc);
-            
+
         }
 
         /**
