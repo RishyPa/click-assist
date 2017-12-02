@@ -13,7 +13,7 @@ namespace autoClick
             public IntPtr Hwnd;//句柄
             public IntPtr Hdc;//设备
             public HwndInfo(IntPtr hwnd, IntPtr hdc)
-                :this()
+                : this()
             {
                 this.Hwnd = hwnd;
                 this.Hdc = hdc;
@@ -38,7 +38,7 @@ namespace autoClick
                 this.clickInterval = clickInterval;
             }
 
-            public PointInfo(Point point, int clickInterval,String windowtext,int i)
+            public PointInfo(Point point, int clickInterval, String windowtext, int i)
                 : this()
             {
                 this.point = point;
@@ -55,7 +55,7 @@ namespace autoClick
                 this.windowText = windowtext;
             }
         };
-
+        private Dictionary<String, HwndInfo> hwndDic = new Dictionary<string, HwndInfo>();
         public const string UNENABLE = "未开启";
         public const string ENABLE = "已开启";
         public string CLICKER_HEROES = "Clicker Heroes";
@@ -64,7 +64,7 @@ namespace autoClick
             this.CLICKER_HEROES = text;
         }
         // 是否开始连点
-        bool isStart = false;
+        public bool isStart = false;
 
         Thread thread;
 
@@ -105,6 +105,53 @@ namespace autoClick
             IntPtr hdc = WinApi.GetDC(hwnd);
             return new HwndInfo(hwnd, hdc);
         }
+        public void checkClikHero(Int32 maxX, Int32 MaxY)
+        {
+            test();
+            System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测开始\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+            String tempcolor = "";
+            if (hwndDic.ContainsKey("Clicker Heroes"))
+            {
+                HwndInfo hd = hwndDic["Clicker Heroes"];
+                IntPtr hwnd = hd.Hwnd;
+                IntPtr hdc = hd.Hdc;
+                //tempcolor = getHexColorValue(hdc, new Point(332, 226));
+                HSVColor hsv = new HSVColor();
+                Point point = new Point();
+                for (int X = 1; X < maxX; X++)
+                {
+                    point.X = X;
+                    for (int Y = 1; Y < MaxY; Y++)
+                    {
+                        point.Y = Y;
+                        hsv = getHSVColorValue(hdc, point);
+                        Int32 H = (int)hsv.H;
+                        if (H==23&&hsv.S>0.9&&hsv.S<0.96&&hsv.V>0.5&&hsv.V<0.7)
+                        {
+                            System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色符合点颜色值H:{1}S:{2}V:{3}\r\n",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                , hsv.H
+                , hsv.S
+                , hsv.V));
+                            System.IO.File.AppendAllText("click.log", String.Format("{0}:发现颜色符合，位置（{1},{2}）\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), X.ToString(), Y.ToString()));
+                            clickMouse(hwnd, X, Y);
+                            //System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测结束\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+                            //return;
+                        }
+                        
+                        /*tempcolor = getHexColorValue(hdc, point);
+                        if (tempcolor == "F66B14" || tempcolor == "FA6F18" || tempcolor == "F78401" || tempcolor == "EF480A")
+                        {
+
+                            System.IO.File.AppendAllText("click.log", String.Format("{0}:发现颜色符合，位置（{1},{2}）\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), X.ToString(), Y.ToString()));
+                            clickMouse(hwnd, X, Y);
+                            System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测结束\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+                            return;
+                        }*/
+                    }
+                }
+            }
+            System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测结束\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+        }
         /**
          * 点击主体
          */
@@ -112,7 +159,6 @@ namespace autoClick
         {
             Dictionary<int, long> intervalStampDic = new Dictionary<int, long>();
             Dictionary<int, List<PointInfo>> intervalPointDic = (Dictionary<int, List<PointInfo>>)intervalDicObj;
-            Dictionary<String, HwndInfo> hwndDic = new Dictionary<string, HwndInfo>();
             if (intervalPointDic == null || intervalPointDic.Count == 0)
             {
                 return;
@@ -122,7 +168,7 @@ namespace autoClick
             {
                 intervalStampDic.Add(interval, getUnixTimestamp());
                 List<PointInfo> temp = intervalPointDic[interval];
-                for (int i=0;i< temp.Count;i++)
+                for (int i = 0; i < temp.Count; i++)
                 {
                     if (temp[i].windowText == null || temp[i].windowText == "")//兼容以前无windtext对象的记录
                     {
@@ -130,7 +176,7 @@ namespace autoClick
                     }
                     else
                         widowtext = temp[i].windowText;
-                    if(!hwndDic.ContainsKey(widowtext))
+                    if (!hwndDic.ContainsKey(widowtext))
                     {
                         hwndDic.Add(widowtext, getHwndInfo(widowtext));
                     }
@@ -140,7 +186,6 @@ namespace autoClick
             int time = (int)scanInterval;
             Int64 tmpTime;
             string tempcolor = "";
-           
             while (isStart)
             {
                 foreach (int interval in intervalPointDic.Keys)
@@ -152,8 +197,8 @@ namespace autoClick
                         for (int i = 0; i < intervalPointDic[interval].Count; i++)
                         {
                             Click.PointInfo pointInfo = intervalPointDic[interval][i];
-                            IntPtr hwnd=IntPtr.Zero;
-                            IntPtr hdc= IntPtr.Zero;
+                            IntPtr hwnd = IntPtr.Zero;
+                            IntPtr hdc = IntPtr.Zero;
                             if (pointInfo.windowText == null || pointInfo.windowText == "")//兼容以前无windtext对象的记录
                             {
                                 widowtext = "Clicker Heroes";
@@ -185,6 +230,7 @@ namespace autoClick
                     }
                 }
 
+
                 Thread.Sleep(time);
             }
 
@@ -212,7 +258,7 @@ namespace autoClick
             IntPtr hwnd = WinApi.FindWindow(null, CLICKER_HEROES); // CLICKER_HEROES
             if (hwnd == IntPtr.Zero)
             {
-               // MessageBox.Show("没有找到对应的窗口");
+                // MessageBox.Show("没有找到对应的窗口");
             }
 
             return hwnd;
@@ -322,20 +368,44 @@ namespace autoClick
 
         public void test()
         {
-            IntPtr hwnd = getHandle();
-
-            IntPtr hdc = WinApi.GetDC(hwnd);
+            HwndInfo hd = getHwndInfo("Clicker Heroes");
+            IntPtr hwnd = hd.Hwnd;
+            IntPtr hdc = hd.Hdc;
 
             // UpdateWindow(hwnd);
 
-            uint pixel = WinApi.GetPixel(hdc, 1107, 242);
+            //uint pixel = WinApi.GetPixel(hdc, 1107, 242);
 
-
-            Color color = Color.FromArgb((int)(pixel & 0x000000FF),
-                             (int)(pixel & 0x0000FF00) >> 8,
-                             (int)(pixel & 0x00FF0000) >> 16);
-
-
+            //Color color = getColorValue(hdc, new Point(220, 198));
+            Point point = new Point();
+            point.X = 361;
+            point.Y = 109;
+            String s = getHexColorValue(hdc, point);
+            HSVColor hsv = getHSVColorValue(hdc, point);
+            System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色测试点值{1},H:{2}S:{3}V:{4}\r\n"
+                , DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                , s
+                , hsv.H
+                , hsv.S
+                , hsv.V));
+           /* for (Int32 X = 1000; X < 1046; X++)
+            {
+                point.X = X;
+                for (Int32 Y = 591; Y < 633; Y++)
+                {
+                    point.Y = Y;
+                    String s = getHexColorValue(hdc, point);
+                    HSVColor hsv = getHSVColorValue(hdc, point);
+                    System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色测试点值{1},H:{2}S:{3}V:{4}\r\n"
+                        , DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                        , s
+                        , hsv.H
+                        , hsv.S
+                        , hsv.V));
+                }
+            }*/
+            WinApi.ReleaseDC(hwnd, hdc);
+            
         }
 
         /**
@@ -347,6 +417,54 @@ namespace autoClick
             uint hexColorValue = ((pixelColor & 0x000000FF) << 16) + (pixelColor & 0x0000FF00) + ((pixelColor & 0x00FF0000) >> 16); // rrggbb
 
             return Convert.ToString(hexColorValue, 16).ToUpper();
+        }
+        public struct HSVColor
+        {
+            public float H;
+            public float S;
+            public float V;
+        }
+        /**
+         * 获取对应点十六进制色值
+         */
+        public HSVColor getHSVColorValue(IntPtr hdc, Point point)
+        {
+            uint pixelColor = WinApi.GetPixel(hdc, point.X, point.Y); // 0x00bbggrr
+            //uint hexColorValue = ((pixelColor & 0x000000FF) << 16) + (pixelColor & 0x0000FF00) + ((pixelColor & 0x00FF0000) >> 16); // rrggbb
+            Color a = Color.FromArgb(Convert.ToInt32(pixelColor & 0x000000FF), Convert.ToInt32((pixelColor & 0x0000FF00) >> 8), Convert.ToInt32((pixelColor & 0x00FF0000) >> 16));
+            HSVColor hsv = new HSVColor();
+            hsv.H = a.GetHue();
+            hsv.S = a.GetSaturation();
+            hsv.V = a.GetBrightness();
+            return hsv;
+        }
+        /**
+         * 获取对应点十六进制色值
+         */
+        public Color getColorValue(IntPtr hdc, Point point)
+        {
+            HwndInfo hd = getHwndInfo("Clicker Heroes");
+            IntPtr hwnd1 = hd.Hwnd;
+            IntPtr hdc1 = hd.Hdc;
+            uint pixelColor = WinApi.GetPixel(hdc1, point.X, point.Y); // 0x00bbggrr
+            WinApi.ReleaseDC(hwnd1, hdc1);
+            uint hexColorValue = ((pixelColor & 0x000000FF) << 16) + (pixelColor & 0x0000FF00) + ((pixelColor & 0x00FF0000) >> 16); // rrggbb
+
+            string s = Convert.ToString(hexColorValue, 16).ToUpper();
+            int l = (int)(pixelColor & 0xFF000000) >> 24;
+            Color a;
+            if (l > 0)
+                a = Color.FromArgb(l,
+                                 (int)(pixelColor & 0x000000FF),
+                                 (int)(pixelColor & 0x0000FF00) >> 8,
+                                 (int)(pixelColor & 0x00FF0000) >> 16);
+            else
+                a = Color.FromArgb(
+                             (int)(pixelColor & 0x000000FF),
+                             (int)(pixelColor & 0x0000FF00) >> 8,
+                             (int)(pixelColor & 0x00FF0000) >> 16);
+
+            return a;
         }
     }
 }
