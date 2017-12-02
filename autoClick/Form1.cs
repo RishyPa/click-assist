@@ -74,6 +74,15 @@ namespace autoClick
         private void button1_Click(object sender, EventArgs e)
         {
             click.clickScheduler(textBox1.Text, label5, getPointListGroupByInterval());
+            if (click.isStart)
+            {
+                timer1.Start();
+                timer1.Interval = 20 * 1000;
+                if (!backgroundWorker1.IsBusy)
+                    backgroundWorker1.RunWorkerAsync();
+            }
+            else
+                timer1.Stop();
         }
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -411,6 +420,17 @@ namespace autoClick
         private void windowText_SelectedIndexChanged(object sender, EventArgs e)
         {
             click.SetWindowText(windowText.SelectedItem.ToString().Trim());
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (!backgroundWorker1.IsBusy)
+                backgroundWorker1.RunWorkerAsync();
+        }
+
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            click.checkClikHero(1100, 630);
         }
     }
 }
