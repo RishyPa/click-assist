@@ -107,9 +107,8 @@ namespace autoClick
             IntPtr hdc = WinApi.GetDC(hwnd);
             return new HwndInfo(hwnd, hdc);
         }
-        public void checkClikHero(Int32 maxX, Int32 MaxY)
+        public void checkClikHero()
         {
-            String tempcolor = "";
             if (hwndDic.ContainsKey("Clicker Heroes"))
             {
                 System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测开始\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
@@ -117,40 +116,79 @@ namespace autoClick
                 HwndInfo hd = hwndDic["Clicker Heroes"];
                 IntPtr hwnd = hd.Hwnd;
                 IntPtr hdc = hd.Hdc;
-                //tempcolor = getHexColorValue(hdc, new Point(332, 226));
-                HSVColor hsv = new HSVColor();
-                Point point = new Point();
-                for (int X = 1; X < maxX; X=X+2)
+                Bitmap bmp = null;
+                Int32 maxX = 0;
+                Int32 MaxY = 0;
+                WinApi.Rect rect = new WinApi.Rect();
+                /*WinApi.ShowWindow(hwnd, WinApi.CmdShow_Show);
+                //Thread.Sleep(10);
+                while(maxX<=0)
                 {
-                    point.X = X;
-                    for (int Y = 1; Y < MaxY; Y=Y+2)
+                    WinApi.GetWindowRect(hwnd, out rect);
+                    maxX = rect.Right - rect.Left;
+                    MaxY = rect.Bottom - rect.Top;
+                    Thread.Sleep(10);
+                }
+                bmp=GetBitmapFromDC(hwnd, hdc, maxX, MaxY);
+                WinApi.ShowWindow(hwnd, WinApi.CmdShow_Min);
+                */
+                try
+                {
+                    WinApi.GetWindowRect(hwnd, out rect);
+                    maxX = rect.Right - rect.Left;
+                    MaxY = rect.Bottom - rect.Top;
+                    //bmp = GetBitmapFromDC(hwnd, hdc, maxX, MaxY);
+                    //tempcolor = getHexColorValue(hdc, new Point(332, 226));
+                    HSVColor hsv = new HSVColor();
+                    //Color color = new Color();
+                    Point point = new Point();
+                    for (int X = 1; X < maxX; X = X + 2)
                     {
-                        point.Y = Y;
-                        hsv = getHSVColorValue(hdc, point);
-                        Int32 H = (int)Math.Round(hsv.H, 0);
-                        if ((H == 23 && hsv.S > 0.9 && hsv.S < 0.96 && hsv.V > 0.5 && hsv.V < 0.7) || (H >= 22&&H<=24 && hsv.S > 0.98 && hsv.S <= 1 && hsv.V < 0.5 && hsv.V > 0.4))
+                        point.X = X;
+                        for (int Y = 1; Y < MaxY; Y = Y + 2)
                         {
-                            System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色符合点颜色值H:{1}S:{2}V:{3}\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
-                , hsv.H
-                , hsv.S
-                , hsv.V));
-                            System.IO.File.AppendAllText("click.log", String.Format("{0}:发现颜色符合，位置（{1},{2}）\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), X.ToString(), Y.ToString()));
-                            if (X < 1098)
-                                clickMouse(hwnd, X, Y);
-                            //System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测结束\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
-                            //return;
-                            System.Threading.Thread.Sleep(100);
-                        }
-                        /*tempcolor = getHexColorValue(hdc, point);
-                        if (tempcolor == "F66B14" || tempcolor == "FA6F18" || tempcolor == "F78401" || tempcolor == "EF480A")
-                        {
+                            point.Y = Y;
+                            /*color = bmp.GetPixel(point.X, point.Y);
+                            hsv.H = color.GetHue();
+                            hsv.S = color.GetSaturation();
+                            hsv.V = color.GetBrightness();*/
+                            hsv = getHSVColorValue(hdc, point);
+                            Int32 H = (int)Math.Round(hsv.H, 0);
+                            if (((H == 23 || H == 20) && hsv.S > 0.9 && hsv.S < 0.99 && hsv.V > 0.5 && hsv.V < 0.7) || (H >= 22 && H <= 24 && hsv.S > 0.98 && hsv.S <= 1 && hsv.V < 0.5 && hsv.V > 0.4))
+                            {
+                                System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色符合点颜色值H:{1}S:{2}V:{3}\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                    , hsv.H
+                    , hsv.S
+                    , hsv.V));
+                                System.IO.File.AppendAllText("click.log", String.Format("{0}:发现颜色符合，位置（{1},{2}）\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), X.ToString(), Y.ToString()));
+                                if (X < 1098)
+                                    clickMouse(hwnd, X, Y);
+                                //System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测结束\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+                                //return;
+                                System.Threading.Thread.Sleep(100);
+                            }
+                            /*String tempcolor = getHexColorValue(hdc, point);
+                            if (tempcolor == "F66B14" || tempcolor == "FA6F18" || tempcolor == "F78401" || tempcolor == "EF480A")
+                            {
 
-                            System.IO.File.AppendAllText("click.log", String.Format("{0}:发现颜色符合，位置（{1},{2}）\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), X.ToString(), Y.ToString()));
-                            clickMouse(hwnd, X, Y);
-                            System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测结束\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
-                            return;
-                        }*/
+                                System.IO.File.AppendAllText("click.log", String.Format("{0}:发现颜色符合，位置（{1},{2}）\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), X.ToString(), Y.ToString()));
+                                clickMouse(hwnd, X, Y);
+                                System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测结束\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+                                return;
+                            }*/
+                        }
                     }
+                }
+                catch
+                { }
+                finally
+                {
+                    /*if(bmp!=null)
+                    {
+                        bmp.Dispose();
+                        bmp = null;
+                    }*/
+                       
                 }
                 System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测结束\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
             }
@@ -473,6 +511,28 @@ namespace autoClick
                              (int)(pixelColor & 0x00FF0000) >> 16);
 
             return a;
+        }
+        /// <summary>
+        /// 获取截图
+        /// </summary>
+        /// <param name="hwnd"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public Bitmap GetBitmapFromDC(IntPtr hwnd, IntPtr windc, int width, int height)
+        {
+            //IntPtr windc = WinApi.GetDC(hwnd);//获取窗口DC
+            IntPtr hDCMem = WinApi.CreateCompatibleDC(windc);//为设备描述表创建兼容的内存设备描述表
+            IntPtr hbitmap = WinApi.CreateCompatibleBitmap(windc, width, height);
+            IntPtr hOldBitmap = (IntPtr)WinApi.SelectObject(hDCMem, hbitmap);
+            WinApi.BitBlt(hDCMem, 0, 0, width, height, windc, 0, 0, WinApi.SRCCOPY);
+            hbitmap = (IntPtr)WinApi.SelectObject(hDCMem, hOldBitmap);
+            Bitmap bitmap = Bitmap.FromHbitmap(hbitmap);
+            WinApi.DeleteObject(hbitmap);//删除用过的对象
+            WinApi.DeleteObject(hOldBitmap);//删除用过的对象
+            WinApi.DeleteDC(hDCMem);//删除用过的对象
+            //WinApi.ReleaseDC(hwnd, windc);
+            return bitmap;
         }
     }
 }

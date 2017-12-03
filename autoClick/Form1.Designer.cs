@@ -59,6 +59,7 @@ namespace autoClick
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.testCheck = new System.Windows.Forms.CheckBox();
             this.testPointText = new System.Windows.Forms.TextBox();
+            this.showControlButton = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -308,11 +309,22 @@ namespace autoClick
             this.testPointText.TabIndex = 15;
             this.testPointText.Text = "466,373";
             // 
+            // showControlButton
+            // 
+            this.showControlButton.Location = new System.Drawing.Point(477, 15);
+            this.showControlButton.Name = "showControlButton";
+            this.showControlButton.Size = new System.Drawing.Size(60, 23);
+            this.showControlButton.TabIndex = 16;
+            this.showControlButton.Text = "隐/显";
+            this.showControlButton.UseVisualStyleBackColor = true;
+            this.showControlButton.Click += new System.EventHandler(this.showControlButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(575, 404);
+            this.Controls.Add(this.showControlButton);
             this.Controls.Add(this.testPointText);
             this.Controls.Add(this.testCheck);
             this.Controls.Add(this.windowText);
@@ -372,6 +384,7 @@ namespace autoClick
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private CheckBox testCheck;
         private TextBox testPointText;
+        private Button showControlButton;
     }
 }
 

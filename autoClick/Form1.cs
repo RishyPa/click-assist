@@ -87,7 +87,7 @@ namespace autoClick
                     catch { }
                 }
                 timer1.Start();
-                timer1.Interval = 20 * 1000;
+                timer1.Interval = 60 * 1000;
                 if (!backgroundWorker1.IsBusy)
                     backgroundWorker1.RunWorkerAsync();
             }
@@ -443,9 +443,32 @@ namespace autoClick
 
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
+            click.checkClikHero();
+        }
+        private Dictionary<String, bool> WindowControlDic = new Dictionary<string, bool>();
+        private void showControlButton_Click(object sender, EventArgs e)
+        {
+            IntPtr hwd =click.getHandle();
             WinApi.Rect rect = new WinApi.Rect();
-            WinApi.GetWindowRect(click.getHandle(), out rect);
-            click.checkClikHero(rect.Right-50, rect.Bottom-50);
+            if (WindowControlDic.ContainsKey(click.CLICKER_HEROES))
+            {
+                if (WindowControlDic[click.CLICKER_HEROES])
+                {
+                    WinApi.GetWindowRect(hwd, out rect);
+                    WinApi.SetWindowPos(hwd, WinApi.HWND_NOTOPMOST, -rect.Right, -rect.Bottom, rect.Right, rect.Bottom, 1);
+                }
+                else
+                {
+                    WinApi.SetWindowPos(hwd, WinApi.HWND_NOTOPMOST, 50, 50, rect.Right, rect.Bottom, 1);
+                }
+                WindowControlDic[click.CLICKER_HEROES] = !WindowControlDic[click.CLICKER_HEROES];
+            }
+            else
+            {
+                WinApi.GetWindowRect(hwd, out rect);
+                WinApi.SetWindowPos(hwd, WinApi.HWND_NOTOPMOST, -rect.Right, -rect.Bottom, rect.Right, rect.Bottom, 1);
+                WindowControlDic.Add(click.CLICKER_HEROES, false);
+            }
         }
     }
 }

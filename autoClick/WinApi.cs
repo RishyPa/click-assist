@@ -116,5 +116,80 @@ namespace autoClick
 
         [DllImport("user32.dll")]
         public static extern bool UpdateWindow(IntPtr hwnd);
+        /// <summary>
+        /// 显示窗口
+        /// </summary>
+        /// <param name="hwnd">窗口句柄</param>
+        /// <param name="nCmdShow">0关闭窗口 1正常大小显示窗口 2最小化窗口 3最大化窗口</param>
+        /// <returns></returns>
+        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+        public static extern int ShowWindow(IntPtr hwnd, int nCmdShow);
+        public const int CmdShow_Close = 0;
+        public const int CmdShow_Show = 1;
+        public const int CmdShow_Min = 2;
+        public const int CmdShow_Max = 3;
+
+        /// <summary>
+        /// 设置窗口位置
+        /// </summary>
+        /// <param name="hWnd">窗口句柄</param>
+        /// <param name="hWndInsertAfter">窗口的 Z 顺序，HWND_TOP,HWND_BOTTOM,HWND_TOPMOST,HWND_NOTOPMOST</param>
+        /// <param name="x">位置X</param>
+        /// <param name="y">位置Y</param>
+        /// <param name="Width">宽度</param>
+        /// <param name="Height">高度</param>
+        /// <param name="flags">选项-SWP_</param>
+        /// <returns></returns>
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int Width, int Height, int flags);
+        /// <summary>
+        /// 在前面
+        /// </summary>
+        public const int HWND_TOP = 0;
+        /// <summary>
+        /// 在后面
+        /// </summary>
+        public const int HWND_BOTTOM = 1;
+        /// <summary>
+        /// 在前面, 位于任何顶部窗口的前面
+        /// </summary>
+        public const int HWND_TOPMOST = -1;
+        /// <summary>
+        /// 在后面, 位于其他顶部窗口的后面
+        /// </summary>
+        public const int HWND_NOTOPMOST = -2;
+
+        /// <summary>
+        /// 移动窗口
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
+        /// <param name="nWidth"></param>
+        /// <param name="nHeight"></param>
+        /// <param name="bRepaint"></param>
+        /// <returns></returns>
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+        /*
+         GDI32 接口
+         */
+        public const int CAPTUREBLT = 1073741824;
+        public const int SRCCOPY = 0x00CC0020; // BitBlt dwRop parameter  
+        [DllImport("gdi32.dll")]
+        public static extern bool BitBlt(IntPtr hObject, int nXDest, int nYDest,
+            int nWidth, int nHeight, IntPtr hObjectSource,
+            int nXSrc, int nYSrc, int dwRop);
+        [DllImport("gdi32.dll")]
+        public static extern IntPtr CreateCompatibleBitmap(IntPtr hDC, int nWidth,
+            int nHeight);
+        [DllImport("gdi32.dll")]
+        public static extern IntPtr CreateCompatibleDC(IntPtr hDC);
+        [DllImport("gdi32.dll")]
+        public static extern bool DeleteDC(IntPtr hDC);
+        [DllImport("gdi32.dll")]
+        public static extern bool DeleteObject(IntPtr hObject);
+        [DllImport("gdi32.dll")]
+        public static extern IntPtr SelectObject(IntPtr hDC, IntPtr hObject);
     }
 }
