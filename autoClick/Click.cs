@@ -217,16 +217,17 @@ namespace autoClick
                             // 若有颜色条件且色值不相等，则放弃此次点击
                             if (pointInfo.hexColorValue != null)
                                 tempcolor = getHexColorValue(hdc, pointInfo.point);
-                            if (pointInfo.hexColorValue != null &&
+                           /* if (pointInfo.hexColorValue != null &&
                                 pointInfo.hexColorValue.Equals(tempcolor))
                             {
                                 continue;
-                            }
+                            }*/
                             if (pointInfo.hexColorValue != null &&
                                !pointInfo.hexColorValue.Equals(tempcolor))
                             {
                                 //System.IO.File.AppendAllText("click.log", String.Format("{0}:发现颜色改变\r\n",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
-                                pointInfo.hexColorValue = tempcolor;
+                                //pointInfo.hexColorValue = tempcolor;
+                                continue;
 
                             }
                             clickMouse(hwnd, pointInfo.point.X, pointInfo.point.Y);
