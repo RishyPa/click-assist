@@ -460,17 +460,20 @@ namespace autoClick
             {
                 if (WindowControlDic[click.CLICKER_HEROES])
                 {
+                    WinApi.ShowWindow(hwd, WinApi.CmdShow_Show);
                     WinApi.GetWindowRect(hwd, out rect);
                     WinApi.SetWindowPos(hwd, WinApi.HWND_NOTOPMOST, -rect.Right, -rect.Bottom, rect.Right - rect.Left, rect.Bottom - rect.Top, 1);
                 }
                 else
                 {
+                    WinApi.ShowWindow(hwd, WinApi.CmdShow_Show);
                     WinApi.SetWindowPos(hwd, WinApi.HWND_NOTOPMOST, 50, 50, rect.Right - rect.Left, rect.Bottom - rect.Top, 1);
                 }
                 WindowControlDic[click.CLICKER_HEROES] = !WindowControlDic[click.CLICKER_HEROES];
             }
             else
             {
+                WinApi.ShowWindow(hwd, WinApi.CmdShow_Show);
                 WinApi.GetWindowRect(hwd, out rect);
                 WinApi.SetWindowPos(hwd, WinApi.HWND_NOTOPMOST, -rect.Right, -rect.Bottom, rect.Right - rect.Left, rect.Bottom - rect.Top, 1);
                 WindowControlDic.Add(click.CLICKER_HEROES, false);
