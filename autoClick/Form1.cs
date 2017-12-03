@@ -86,9 +86,11 @@ namespace autoClick
                     }
                     catch { }
                 }
-                while (!click.hwndDic.ContainsKey("Clicker Heroes"))
+                Int32 times = 0;
+                while (!click.hwndDic.ContainsKey("Clicker Heroes") && times < 10)
                 {
                     System.Threading.Thread.Sleep(100);
+                    times++;
                 }
                 timer1.Start();
                 timer1.Interval = 60 * 1000;

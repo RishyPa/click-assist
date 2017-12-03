@@ -307,7 +307,7 @@ namespace autoClick
             this.testPointText.Name = "testPointText";
             this.testPointText.Size = new System.Drawing.Size(100, 25);
             this.testPointText.TabIndex = 15;
-            this.testPointText.Text = "466,373";
+            this.testPointText.Text = "1113,200";
             // 
             // showControlButton
             // 

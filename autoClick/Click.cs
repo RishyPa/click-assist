@@ -120,23 +120,38 @@ namespace autoClick
                 Int32 maxX = 0;
                 Int32 MaxY = 0;
                 WinApi.Rect rect = new WinApi.Rect();
-                /*WinApi.ShowWindow(hwnd, WinApi.CmdShow_Show);
-                //Thread.Sleep(10);
-                while(maxX<=0)
-                {
-                    WinApi.GetWindowRect(hwnd, out rect);
-                    maxX = rect.Right - rect.Left;
-                    MaxY = rect.Bottom - rect.Top;
-                    Thread.Sleep(10);
-                }
-                bmp=GetBitmapFromDC(hwnd, hdc, maxX, MaxY);
-                WinApi.ShowWindow(hwnd, WinApi.CmdShow_Min);
-                */
                 try
                 {
+                    /*
+                     WinApi.ShowWindow(hwnd, WinApi.CmdShow_Show);
+                    //Thread.Sleep(10);
+                    while(maxX<=0)
+                    {
+                        WinApi.GetWindowRect(hwnd, out rect);
+                        maxX = rect.Right - rect.Left;
+                        MaxY = rect.Bottom - rect.Top;
+                        Thread.Sleep(10);
+                    }
+                    bmp=GetBitmapFromDC(hwnd, hdc, maxX, MaxY);
+                    WinApi.ShowWindow(hwnd, WinApi.CmdShow_Min);
+                    */
+
                     WinApi.GetWindowRect(hwnd, out rect);
                     maxX = rect.Right - rect.Left;
                     MaxY = rect.Bottom - rect.Top;
+                    if (maxX <= 500)
+                    {
+                        WinApi.ShowWindow(hwnd, WinApi.CmdShow_Show);
+                        Int32 times = 0;
+                        while (maxX <= 0&&times<10)
+                        {
+                            WinApi.GetWindowRect(hwnd, out rect);
+                            maxX = rect.Right - rect.Left;
+                            MaxY = rect.Bottom - rect.Top;
+                            times++;
+                            Thread.Sleep(100);
+                        }
+                    }
                     bmp = GetBitmapFromDC(hwnd, hdc, maxX, MaxY);
                     //tempcolor = getHexColorValue(hdc, new Point(332, 226));
                     HSVColor hsv = new HSVColor();
@@ -227,7 +242,9 @@ namespace autoClick
                         widowtext = temp[i].windowText;
                     if (!hwndDic.ContainsKey(widowtext))
                     {
-                        hwndDic.Add(widowtext, getHwndInfo(widowtext));
+                        HwndInfo hd = getHwndInfo(widowtext);
+                        if (hd.Hdc != IntPtr.Zero)
+                            hwndDic.Add(widowtext, getHwndInfo(widowtext));
                     }
                 }
             }
