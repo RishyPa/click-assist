@@ -137,10 +137,10 @@ namespace autoClick
                     WinApi.GetWindowRect(hwnd, out rect);
                     maxX = rect.Right - rect.Left;
                     MaxY = rect.Bottom - rect.Top;
-                    //bmp = GetBitmapFromDC(hwnd, hdc, maxX, MaxY);
+                    bmp = GetBitmapFromDC(hwnd, hdc, maxX, MaxY);
                     //tempcolor = getHexColorValue(hdc, new Point(332, 226));
                     HSVColor hsv = new HSVColor();
-                    //Color color = new Color();
+                    Color color = new Color();
                     Point point = new Point();
                     for (int X = 1; X < maxX; X = X + 2)
                     {
@@ -148,11 +148,11 @@ namespace autoClick
                         for (int Y = 1; Y < MaxY; Y = Y + 2)
                         {
                             point.Y = Y;
-                            /*color = bmp.GetPixel(point.X, point.Y);
+                            color = bmp.GetPixel(point.X, point.Y);
                             hsv.H = color.GetHue();
                             hsv.S = color.GetSaturation();
-                            hsv.V = color.GetBrightness();*/
-                            hsv = getHSVColorValue(hdc, point);
+                            hsv.V = color.GetBrightness();
+                            //hsv = getHSVColorValue(hdc, point);
                             Int32 H = (int)Math.Round(hsv.H, 0);
                             if (((H == 23 || H == 20) && hsv.S > 0.9 && hsv.S < 0.99 && hsv.V > 0.5 && hsv.V < 0.7) || (H >= 22 && H <= 24 && hsv.S > 0.98 && hsv.S <= 1 && hsv.V < 0.5 && hsv.V > 0.4))
                             {
@@ -162,10 +162,17 @@ namespace autoClick
                     , hsv.V));
                                 System.IO.File.AppendAllText("click.log", String.Format("{0}:发现颜色符合，位置（{1},{2}）\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), X.ToString(), Y.ToString()));
                                 if (X < 1098)
+                                { 
                                     clickMouse(hwnd, X, Y);
+                                    //点击后重新获取图像。
+                                    bmp.Dispose();
+                                    bmp = null;
+                                    Thread.Sleep(100);
+                                    bmp= bmp = GetBitmapFromDC(hwnd, hdc, maxX, MaxY);
+                                }
+
                                 //System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测结束\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
                                 //return;
-                                System.Threading.Thread.Sleep(100);
                             }
                             /*String tempcolor = getHexColorValue(hdc, point);
                             if (tempcolor == "F66B14" || tempcolor == "FA6F18" || tempcolor == "F78401" || tempcolor == "EF480A")
