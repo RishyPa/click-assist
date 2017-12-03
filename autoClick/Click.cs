@@ -57,7 +57,7 @@ namespace autoClick
                 this.windowText = windowtext;
             }
         };
-        private Dictionary<String, HwndInfo> hwndDic = new Dictionary<string, HwndInfo>();
+        public Dictionary<String, HwndInfo> hwndDic = new Dictionary<string, HwndInfo>();
         public const string UNENABLE = "未开启";
         public const string ENABLE = "已开启";
         public string CLICKER_HEROES = "Clicker Heroes";

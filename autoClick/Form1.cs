@@ -86,6 +86,10 @@ namespace autoClick
                     }
                     catch { }
                 }
+                while (!click.hwndDic.ContainsKey("Clicker Heroes"))
+                {
+                    System.Threading.Thread.Sleep(100);
+                }
                 timer1.Start();
                 timer1.Interval = 60 * 1000;
                 if (!backgroundWorker1.IsBusy)
