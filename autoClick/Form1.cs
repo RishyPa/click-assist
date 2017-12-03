@@ -76,13 +76,26 @@ namespace autoClick
             click.clickScheduler(textBox1.Text, label5, getPointListGroupByInterval());
             if (click.isStart)
             {
+                if (testCheck.Checked)
+                {
+                    try
+                    {
+                        click.TestPoint.X = Convert.ToInt32(testPointText.Text.Split(new char[] { ',' })[0]);
+                        click.TestPoint.Y = Convert.ToInt32(testPointText.Text.Split(new char[] { ',' })[1]);
+                        click.TestFlag = true;
+                    }
+                    catch { }
+                }
                 timer1.Start();
                 timer1.Interval = 20 * 1000;
                 if (!backgroundWorker1.IsBusy)
                     backgroundWorker1.RunWorkerAsync();
             }
             else
+            {
+                click.TestFlag = false;
                 timer1.Stop();
+            }
         }
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)

@@ -19,6 +19,8 @@ namespace autoClick
                 this.Hdc = hdc;
             }
         }
+        public Point TestPoint=new Point();
+        public Boolean TestFlag = false;
         public struct PointInfo
         {
             public Point point; // 点信息
@@ -107,26 +109,26 @@ namespace autoClick
         }
         public void checkClikHero(Int32 maxX, Int32 MaxY)
         {
-            test();
-            System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测开始\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
             String tempcolor = "";
             if (hwndDic.ContainsKey("Clicker Heroes"))
             {
+                System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测开始\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+                test();
                 HwndInfo hd = hwndDic["Clicker Heroes"];
                 IntPtr hwnd = hd.Hwnd;
                 IntPtr hdc = hd.Hdc;
                 //tempcolor = getHexColorValue(hdc, new Point(332, 226));
                 HSVColor hsv = new HSVColor();
                 Point point = new Point();
-                for (int X = 1; X < maxX; X++)
+                for (int X = 1; X < maxX; X=X+2)
                 {
                     point.X = X;
-                    for (int Y = 1; Y < MaxY; Y++)
+                    for (int Y = 1; Y < MaxY; Y=Y+2)
                     {
                         point.Y = Y;
                         hsv = getHSVColorValue(hdc, point);
                         Int32 H = (int)Math.Round(hsv.H, 0);
-                        if ((H == 23 && hsv.S > 0.9 && hsv.S < 0.96 && hsv.V > 0.5 && hsv.V < 0.7) || (H == 23 && hsv.S >= 1 && hsv.V < 0.5 && hsv.V > 0.4) || (H == 22 && hsv.S > 0.99 && hsv.S <= 1 && hsv.V < 0.5 && hsv.V > 0.4))
+                        if ((H == 23 && hsv.S > 0.9 && hsv.S < 0.96 && hsv.V > 0.5 && hsv.V < 0.7) || (H >= 22&&H<=24 && hsv.S > 0.98 && hsv.S <= 1 && hsv.V < 0.5 && hsv.V > 0.4))
                         {
                             System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色符合点颜色值H:{1}S:{2}V:{3}\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
                 , hsv.H
@@ -137,8 +139,8 @@ namespace autoClick
                                 clickMouse(hwnd, X, Y);
                             //System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测结束\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
                             //return;
+                            System.Threading.Thread.Sleep(100);
                         }
-
                         /*tempcolor = getHexColorValue(hdc, point);
                         if (tempcolor == "F66B14" || tempcolor == "FA6F18" || tempcolor == "F78401" || tempcolor == "EF480A")
                         {
@@ -150,8 +152,9 @@ namespace autoClick
                         }*/
                     }
                 }
+                System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测结束\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
             }
-            System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测结束\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+            
         }
         /**
          * 点击主体
@@ -240,6 +243,7 @@ namespace autoClick
             {
                 WinApi.ReleaseDC(hwndDic[key].Hwnd, hwndDic[key].Hdc);
             }
+            hwndDic.Clear();
         }
 
         /**
@@ -369,47 +373,46 @@ namespace autoClick
 
         public void test()
         {
-            HwndInfo hd = getHwndInfo("Clicker Heroes");
-            IntPtr hwnd = hd.Hwnd;
-            IntPtr hdc = hd.Hdc;
+            if (TestFlag)
+            {
+                HwndInfo hd = hwndDic["Clicker Heroes"];
+                IntPtr hwnd = hd.Hwnd;
+                IntPtr hdc = hd.Hdc;
 
-            // UpdateWindow(hwnd);
+                // UpdateWindow(hwnd);
 
-            //uint pixel = WinApi.GetPixel(hdc, 1107, 242);
+                //uint pixel = WinApi.GetPixel(hdc, 1107, 242);
 
-            //Color color = getColorValue(hdc, new Point(220, 198));
-            Point point = new Point();
-            point.X = 392;
-            point.Y = 610;
-            String s = getHexColorValue(hdc, point);
+                //Color color = getColorValue(hdc, new Point(220, 198));
+                String s = getHexColorValue(hdc, TestPoint);
 
-            HSVColor hsv = getHSVColorValue(hdc, point);
-            Int32 H = (int)Math.Round(hsv.H, 0);
-            System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色测试点值{1},H:{2}S:{3}V:{4};(int)H-{5}\r\n"
-                , DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
-                , s
-                , hsv.H
-                , hsv.S
-                , hsv.V
-                , H));
-            /* for (Int32 X = 1000; X < 1046; X++)
-             {
-                 point.X = X;
-                 for (Int32 Y = 591; Y < 633; Y++)
+                HSVColor hsv = getHSVColorValue(hdc, TestPoint);
+                Int32 H = (int)Math.Round(hsv.H, 0);
+                System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色测试点值{1},H:{2}S:{3}V:{4};(int)H-{5}\r\n"
+                    , DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                    , s
+                    , hsv.H
+                    , hsv.S
+                    , hsv.V
+                    , H));
+                /* for (Int32 X = 1000; X < 1046; X++)
                  {
-                     point.Y = Y;
-                     String s = getHexColorValue(hdc, point);
-                     HSVColor hsv = getHSVColorValue(hdc, point);
-                     System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色测试点值{1},H:{2}S:{3}V:{4}\r\n"
-                         , DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
-                         , s
-                         , hsv.H
-                         , hsv.S
-                         , hsv.V));
-                 }
-             }*/
-            WinApi.ReleaseDC(hwnd, hdc);
-
+                     point.X = X;
+                     for (Int32 Y = 591; Y < 633; Y++)
+                     {
+                         point.Y = Y;
+                         String s = getHexColorValue(hdc, point);
+                         HSVColor hsv = getHSVColorValue(hdc, point);
+                         System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色测试点值{1},H:{2}S:{3}V:{4}\r\n"
+                             , DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                             , s
+                             , hsv.H
+                             , hsv.S
+                             , hsv.V));
+                     }
+                 }*/
+                //WinApi.ReleaseDC(hwnd, hdc);
+            }
         }
 
         /**
