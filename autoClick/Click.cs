@@ -112,7 +112,6 @@ namespace autoClick
             if (hwndDic.ContainsKey("Clicker Heroes"))
             {
                 System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测开始\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
-                test();
                 HwndInfo hd = hwndDic["Clicker Heroes"];
                 IntPtr hwnd = hd.Hwnd;
                 IntPtr hdc = hd.Hdc;
@@ -143,7 +142,7 @@ namespace autoClick
                     {
                         WinApi.ShowWindow(hwnd, WinApi.CmdShow_Show);
                         Int32 times = 0;
-                        while (maxX <= 0&&times<10)
+                        while (maxX <= 500&&times<10)
                         {
                             WinApi.GetWindowRect(hwnd, out rect);
                             maxX = rect.Right - rect.Left;
@@ -152,6 +151,7 @@ namespace autoClick
                             Thread.Sleep(100);
                         }
                     }
+                    test();
                     bmp = GetBitmapFromDC(hwnd, hdc, maxX, MaxY);
                     //tempcolor = getHexColorValue(hdc, new Point(332, 226));
                     HSVColor hsv = new HSVColor();
@@ -205,11 +205,11 @@ namespace autoClick
                 { }
                 finally
                 {
-                    /*if(bmp!=null)
+                    if(bmp!=null)
                     {
                         bmp.Dispose();
                         bmp = null;
-                    }*/
+                    }
                        
                 }
                 System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测结束\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
