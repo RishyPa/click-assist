@@ -8,6 +8,7 @@ namespace autoClick
 {
     class Click
     {
+        public Int32 ClickTimes = 0;
         public struct HwndInfo
         {
             public IntPtr Hwnd;//句柄
@@ -69,7 +70,7 @@ namespace autoClick
         public bool isStart = false;
 
         Thread thread;
-
+        private List<Thread> ThreadList = new List<Thread>();
         // 点击间隔
         uint scanInterval;
 
@@ -99,6 +100,41 @@ namespace autoClick
                 label.ForeColor = Color.Green;
                 thread = new Thread(new ParameterizedThreadStart(doClick));
                 thread.Start(intervalPointDic);//调用主处理程序
+            }
+        }
+        public void doClicks(PointInfo p)
+        {
+            if (hwndDic.ContainsKey(p.windowText))
+            {
+                Thread t = new Thread(new ParameterizedThreadStart(StartClicksThread));
+                ThreadList.Add(t);
+                t.Start(p);
+            }
+        }
+        public void StartClicksThread(object point)
+        {
+            PointInfo p = (PointInfo)point;
+            Int32 clicktimes = ClickTimes;
+            
+            if (hwndDic.ContainsKey(p.windowText))
+            {
+                HwndInfo hwi = hwndDic[p.windowText];
+                for (int i = 0; i < clicktimes; i++)
+                {
+                    clickMouse(hwi.Hwnd, p.point.X, p.point.Y);
+                    Thread.Sleep((int)this.scanInterval);
+                }
+            }
+        }
+        private void cleanThreadList()
+        {
+            for (int i = 0; i < ThreadList.Count; i++)
+            {
+                if (ThreadList[i].ThreadState == ThreadState.Stopped)
+                {
+                    ThreadList[i] = null;
+                    ThreadList.RemoveAt(i--);
+                }
             }
         }
         public HwndInfo getHwndInfo(String windowtext)
@@ -296,8 +332,7 @@ namespace autoClick
                         }
                     }
                 }
-
-
+                cleanThreadList();
                 Thread.Sleep(time);
             }
 

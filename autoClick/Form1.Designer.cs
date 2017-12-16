@@ -60,16 +60,18 @@ namespace autoClick
             this.testCheck = new System.Windows.Forms.CheckBox();
             this.testPointText = new System.Windows.Forms.TextBox();
             this.showControlButton = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textClickTimes = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(119, 49);
+            this.button1.Location = new System.Drawing.Point(79, 49);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 29);
+            this.button1.Size = new System.Drawing.Size(57, 29);
             this.button1.TabIndex = 0;
             this.button1.Text = "开始";
             this.button1.UseVisualStyleBackColor = true;
@@ -98,7 +100,7 @@ namespace autoClick
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 55);
+            this.label2.Location = new System.Drawing.Point(3, 55);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(68, 15);
@@ -188,7 +190,7 @@ namespace autoClick
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(224, 55);
+            this.label4.Location = new System.Drawing.Point(144, 56);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(91, 15);
@@ -251,7 +253,7 @@ namespace autoClick
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(321, 55);
+            this.label6.Location = new System.Drawing.Point(243, 55);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(136, 15);
@@ -319,11 +321,33 @@ namespace autoClick
             this.showControlButton.UseVisualStyleBackColor = true;
             this.showControlButton.Click += new System.EventHandler(this.showControlButton_Click);
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(384, 55);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(128, 15);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "按F8进行连续点击";
+            // 
+            // textClickTimes
+            // 
+            this.textClickTimes.Location = new System.Drawing.Point(518, 49);
+            this.textClickTimes.Name = "textClickTimes";
+            this.textClickTimes.Size = new System.Drawing.Size(33, 25);
+            this.textClickTimes.TabIndex = 18;
+            this.textClickTimes.Text = "0";
+            this.textClickTimes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textClickTimes.TextChanged += new System.EventHandler(this.textClickTimes_TextChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(575, 404);
+            this.Controls.Add(this.textClickTimes);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.showControlButton);
             this.Controls.Add(this.testPointText);
             this.Controls.Add(this.testCheck);
@@ -385,6 +409,8 @@ namespace autoClick
         private CheckBox testCheck;
         private TextBox testPointText;
         private Button showControlButton;
+        private Label label7;
+        private TextBox textClickTimes;
     }
 }
 

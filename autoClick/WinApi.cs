@@ -17,6 +17,7 @@ namespace autoClick
         public const int HOTKEY_ID_F9 = 100;// F9快捷键ID
         public const int HOTKEY_ID_F10 = 101;// F10快捷键ID
         public const int HOTKEY_ID_F11 = 102;// F11快捷键ID
+        public const int HOTKEY_ID_F8 = 99;// F8快捷键ID
         public const int WM_HOTKEY = 0x0312;// 按快捷键 
         public const int WS_EX_TOOLWINDOW = 0x00000080;//TOOL窗口 不显示桌面图标
         public const int WS_EX_APPWINDOW = 0x00040000;//TOOL窗口 不显示桌面图标

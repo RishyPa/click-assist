@@ -26,6 +26,7 @@ namespace autoClick
                 case WinApi.WM_HOTKEY:
                     switch (m.WParam.ToInt32())
                     {
+                        case WinApi.HOTKEY_ID_F8: click.doClicks(click.addPointInfo(false)); break;
                         case WinApi.HOTKEY_ID_F9  : click.clickScheduler(textBox1.Text, label5, getPointListGroupByInterval()); break;
                         case WinApi.HOTKEY_ID_F10 : addPointToDataView(click.addPointInfo(false)); break;
                         case WinApi.HOTKEY_ID_F11 : 
@@ -45,6 +46,7 @@ namespace autoClick
 
             // 加载点击点信息
             loadPointInfo();
+            click.ClickTimes = Convert.ToInt32(textClickTimes.Text);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -223,6 +225,7 @@ namespace autoClick
             WinApi.RegisterHotKey(this.Handle, WinApi.HOTKEY_ID_F9, 0, Keys.F9);
             WinApi.RegisterHotKey(this.Handle, WinApi.HOTKEY_ID_F10, 0, Keys.F10);
             WinApi.RegisterHotKey(this.Handle, WinApi.HOTKEY_ID_F11, 0, Keys.F11);
+            WinApi.RegisterHotKey(this.Handle, WinApi.HOTKEY_ID_F8, 0, Keys.F8);
         }
 
         private void unregisterAllHotKey()
@@ -230,6 +233,7 @@ namespace autoClick
             WinApi.UnregisterHotKey(this.Handle, WinApi.HOTKEY_ID_F9);
             WinApi.UnregisterHotKey(this.Handle, WinApi.HOTKEY_ID_F10);
             WinApi.UnregisterHotKey(this.Handle, WinApi.HOTKEY_ID_F11);
+            WinApi.UnregisterHotKey(this.Handle, WinApi.HOTKEY_ID_F8);
         }
 
         /**
@@ -478,6 +482,18 @@ namespace autoClick
                     WinApi.SetWindowPos(hwd, WinApi.HWND_NOTOPMOST, 50, 50, rect.Right - rect.Left, rect.Bottom - rect.Top, 1);
                     WindowControlDic.Add(click.CLICKER_HEROES, true);
                 }
+            }
+        }
+
+        private void textClickTimes_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                click.ClickTimes = Convert.ToInt32(textClickTimes.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }
