@@ -161,6 +161,8 @@ namespace autoClick
         /// </summary>
         public const int HWND_NOTOPMOST = -2;
 
+        public const int SWP_NOZORDER = 0x0004;
+
         /// <summary>
         /// 移动窗口
         /// </summary>
