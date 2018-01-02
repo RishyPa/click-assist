@@ -274,16 +274,24 @@ namespace autoClick
         private void switchDataView(List<Click.PointInfo> pointList)
         {
             dataGridView1.Rows.Clear();
-
+            DataGridViewCheckBoxColumn checkTemplate = (DataGridViewCheckBoxColumn)dataGridView1.Columns[5];
+            checkTemplate.TrueValue = true;
+            checkTemplate.FalseValue = false;
+            dataGridView1.RowTemplate.MinimumHeight = 24;
             int index;
+            //dataGridView1.DataSource = pointList;
             foreach (Click.PointInfo pointInfo in pointList)
             {
                 index = dataGridView1.Rows.Add();
+                dataGridView1.Rows[index].Height = 25;
                 dataGridView1.Rows[index].Cells[0].Value = pointInfo.point.X;
                 dataGridView1.Rows[index].Cells[1].Value = pointInfo.point.Y;
                 dataGridView1.Rows[index].Cells[2].Value = pointInfo.clickInterval;
                 dataGridView1.Rows[index].Cells[3].Value = pointInfo.hexColorValue;
                 dataGridView1.Rows[index].Cells[4].Value = pointInfo.windowText;
+                dataGridView1.Rows[index].Cells[5].Value = pointInfo.status;
+                //taGridViewCheckBoxCell dgvcbc = (DataGridViewCheckBoxCell)dataGridView1.Rows[index].Cells[5];
+                //dgvcbc.pointInfo.status;
             }
         }
 
@@ -319,6 +327,7 @@ namespace autoClick
             object intervalObj;
             object hexColorValueObj;
             object windowText;
+            object status;
             uint X;
             uint Y;
             uint clickInterval;
@@ -332,10 +341,13 @@ namespace autoClick
                 intervalObj = dataGridView1.Rows[i].Cells[2].Value;
                 hexColorValueObj = dataGridView1.Rows[i].Cells[3].Value;
                 windowText = dataGridView1.Rows[i].Cells[4].Value;
+                status= dataGridView1.Rows[i].Cells[5].Value;
                 if (windowText == null || windowText.ToString().Trim() == "")
                 {
                     windowText = "Clicker Heroes";
-                } 
+                }
+                if (status == null)
+                    status = false;
                 if (XObj != null && YObj != null && intervalObj != null
                     && uint.TryParse(XObj.ToString(), out X)
                     && uint.TryParse(YObj.ToString(), out Y)
@@ -344,11 +356,11 @@ namespace autoClick
                     point = new Point((int)X, (int)Y);
                     if (hexColorValueObj != null && hexColorValueObj.ToString().Length == 6)
                     {
-                        pointInterval = new Click.PointInfo(point, (int)clickInterval, hexColorValueObj.ToString(), windowText.ToString());
+                        pointInterval = new Click.PointInfo(point, (int)clickInterval, hexColorValueObj.ToString(), windowText.ToString(),(Boolean)status);
                     }
                     else
                     {
-                        pointInterval = new Click.PointInfo(point, (int)clickInterval, windowText.ToString(), 1);
+                        pointInterval = new Click.PointInfo(point, (int)clickInterval, windowText.ToString(), (Boolean)status, 1);
                     }
                     pointList.Add(pointInterval);
                 }
@@ -462,6 +474,7 @@ namespace autoClick
             WinApi.Rect rect = new WinApi.Rect();
             WinApi.ShowWindow(hwd, WinApi.CmdShow_Show);
             WinApi.GetWindowRect(hwd, out rect);
+            //WinApi.SetWindowPos(hwd, WinApi.HWND_NOTOPMOST, 50, 50, 1152, 678, WinApi.SWP_NOZORDER);
             if (WindowControlDic.ContainsKey(click.CLICKER_HEROES))
             {
                 if (WindowControlDic[click.CLICKER_HEROES])

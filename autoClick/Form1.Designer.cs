@@ -41,11 +41,6 @@ namespace autoClick
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.interval = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hexColorValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wText = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -62,6 +57,12 @@ namespace autoClick
             this.showControlButton = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.textClickTimes = new System.Windows.Forms.TextBox();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.interval = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hexColorValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.wText = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -146,46 +147,21 @@ namespace autoClick
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllHeaders;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2,
             this.interval,
             this.hexColorValue,
-            this.wText});
+            this.wText,
+            this.Status});
             this.dataGridView1.Location = new System.Drawing.Point(3, 118);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 23;
+            this.dataGridView1.RowTemplate.Height = 100;
             this.dataGridView1.Size = new System.Drawing.Size(569, 288);
             this.dataGridView1.TabIndex = 6;
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView1_CellValueChanged);
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "X";
-            this.Column1.Name = "Column1";
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Y";
-            this.Column2.Name = "Column2";
-            // 
-            // interval
-            // 
-            this.interval.HeaderText = "时间间隔(ms)";
-            this.interval.Name = "interval";
-            // 
-            // hexColorValue
-            // 
-            this.hexColorValue.HeaderText = "16进制色值";
-            this.hexColorValue.Name = "hexColorValue";
-            // 
-            // wText
-            // 
-            this.wText.HeaderText = "窗口名称";
-            this.wText.Name = "wText";
             // 
             // label4
             // 
@@ -341,6 +317,50 @@ namespace autoClick
             this.textClickTimes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.textClickTimes.TextChanged += new System.EventHandler(this.textClickTimes_TextChanged);
             // 
+            // Column1
+            // 
+            this.Column1.DataPropertyName = "point.X";
+            this.Column1.FillWeight = 15F;
+            this.Column1.HeaderText = "X";
+            this.Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            this.Column2.DataPropertyName = "point.Y";
+            this.Column2.FillWeight = 15F;
+            this.Column2.HeaderText = "Y";
+            this.Column2.Name = "Column2";
+            // 
+            // interval
+            // 
+            this.interval.FillWeight = 30F;
+            this.interval.HeaderText = "时间间隔(ms)";
+            this.interval.Name = "interval";
+            // 
+            // hexColorValue
+            // 
+            this.hexColorValue.DataPropertyName = "hexColorValue";
+            this.hexColorValue.FillWeight = 15F;
+            this.hexColorValue.HeaderText = "16进制色值";
+            this.hexColorValue.Name = "hexColorValue";
+            // 
+            // wText
+            // 
+            this.wText.DataPropertyName = "windowText";
+            this.wText.FillWeight = 30F;
+            this.wText.HeaderText = "窗口名称";
+            this.wText.Name = "wText";
+            // 
+            // Status
+            // 
+            this.Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Status.DataPropertyName = "status";
+            this.Status.FillWeight = 10F;
+            this.Status.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.Status.HeaderText = "禁用";
+            this.Status.Name = "Status";
+            this.Status.Width = 43;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -396,14 +416,9 @@ namespace autoClick
         private System.Windows.Forms.TextBox list_title_text;
         private System.Windows.Forms.Button add_btn;
         private System.Windows.Forms.Button del_btn;
-        private DataGridViewTextBoxColumn Column1;
-        private DataGridViewTextBoxColumn Column2;
-        private DataGridViewTextBoxColumn interval;
-        private DataGridViewTextBoxColumn hexColorValue;
         private Label label6;
         private Button update_btn;
         private ComboBox windowText;
-        private DataGridViewTextBoxColumn wText;
         private Timer timer1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private CheckBox testCheck;
@@ -411,6 +426,12 @@ namespace autoClick
         private Button showControlButton;
         private Label label7;
         private TextBox textClickTimes;
+        private DataGridViewTextBoxColumn Column1;
+        private DataGridViewTextBoxColumn Column2;
+        private DataGridViewTextBoxColumn interval;
+        private DataGridViewTextBoxColumn hexColorValue;
+        private DataGridViewTextBoxColumn wText;
+        private DataGridViewCheckBoxColumn Status;
     }
 }
 

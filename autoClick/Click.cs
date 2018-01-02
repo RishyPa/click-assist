@@ -28,34 +28,41 @@ namespace autoClick
             public int clickInterval; // 点击间隔
             public string hexColorValue; // 16进制色值
             public string windowText;
+            public Boolean status;
             public PointInfo(Point point)
                 : this()
             {
+                this.status = false;
                 this.point = point;
             }
 
             public PointInfo(Point point, int clickInterval)
                 : this()
             {
+                this.status = false;
                 this.point = point;
                 this.clickInterval = clickInterval;
             }
 
-            public PointInfo(Point point, int clickInterval, String windowtext, int i)
+            public PointInfo(Point point, int clickInterval, String windowtext, Boolean status,int i)
                 : this()
             {
+                //this.status = false;
                 this.point = point;
                 this.clickInterval = clickInterval;
                 this.windowText = windowtext;
+                this.status = status;
             }
 
-            public PointInfo(Point point, int clickInterval, string hexColorValue, String windowtext)
+            public PointInfo(Point point, int clickInterval, string hexColorValue, String windowtext,Boolean status)
                 : this()
             {
+                //this.status = false;
                 this.point = point;
                 this.clickInterval = clickInterval;
                 this.hexColorValue = hexColorValue;
                 this.windowText = windowtext;
+                this.status = status;
             }
         };
         public Dictionary<String, HwndInfo> hwndDic = new Dictionary<string, HwndInfo>();
@@ -328,7 +335,8 @@ namespace autoClick
                                 continue;
 
                             }
-                            clickMouse(hwnd, pointInfo.point.X, pointInfo.point.Y);
+                            if(!pointInfo.status)
+                                clickMouse(hwnd, pointInfo.point.X, pointInfo.point.Y);
                         }
                     }
                 }
@@ -419,6 +427,7 @@ namespace autoClick
 
             Click.PointInfo pointInfo = new Click.PointInfo(point);
             pointInfo.windowText = this.CLICKER_HEROES;
+            pointInfo.status = false;
             if (hasColor)
             {
                 IntPtr hwnd = getHandle();
