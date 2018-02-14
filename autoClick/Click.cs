@@ -211,8 +211,8 @@ namespace autoClick
                             hsv.S = color.GetSaturation();
                             hsv.V = color.GetBrightness();
                             //hsv = getHSVColorValue(hdc, point);
-                            Int32 H = (int)Math.Round(hsv.H, 0);
-                            if (((H == 23 || H == 20) && hsv.S > 0.9 && hsv.S < 0.99 && hsv.V > 0.5 && hsv.V < 0.7) || (H >= 22 && H <= 24 && hsv.S > 0.98 && hsv.S <= 1 && hsv.V < 0.5 && hsv.V > 0.4))
+                            //Int32 H = (int)Math.Round(hsv.H, 0);
+                            if (HSVCheck(hsv, point))
                             {
                                 System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色符合点颜色值H:{1}S:{2}V:{3}\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
                     , hsv.H
@@ -222,11 +222,12 @@ namespace autoClick
                                 if (X < 1098)
                                 { 
                                     clickMouse(hwnd, X, Y);
+                                    //Y = Y + 6;
                                     //点击后重新获取图像。
                                     bmp.Dispose();
                                     bmp = null;
                                     Thread.Sleep(100);
-                                    bmp= bmp = GetBitmapFromDC(hwnd, hdc, maxX, MaxY);
+                                    bmp=  GetBitmapFromDC(hwnd, hdc, maxX, MaxY);
                                 }
 
                                 //System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测结束\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
@@ -253,11 +254,26 @@ namespace autoClick
                         bmp.Dispose();
                         bmp = null;
                     }
-                       
                 }
                 System.IO.File.AppendAllText("click.log", String.Format("{0}:颜色检测结束\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
             }
             
+        }
+        private Boolean HSVCheck(HSVColor hsv, Point point)
+        {
+            Boolean result = false;
+            Int32 H = (int)Math.Round(hsv.H, 0);
+            if(((H == 23 || H == 20) && hsv.S > 0.9 && hsv.S < 0.99 && hsv.V > 0.5 && hsv.V < 0.7) || (H >= 22 && H <= 24 && hsv.S > 0.98 && hsv.S <= 1 && hsv.V < 0.5 && hsv.V > 0.4))
+                result = true;
+            if (H == 0 && hsv.S > 0.6 && hsv.S < 0.7 && hsv.V > 0.4 && hsv.V < 0.5 )
+                result = true;
+            if (point.X > 1098)
+                result = false;
+            if(point.X>= 9&&point.X<= 37&&point.Y>= 29 && point.Y<= 47)
+                result = false;
+            if (point.X >= 543 && point.X <= 569 && point.Y >= 33 && point.Y <= 53)
+                result = false;
+            return result;
         }
         /**
          * 点击主体
