@@ -9,6 +9,7 @@ namespace autoClick
     class Click
     {
         public Int32 ClickTimes = 0;
+        public Boolean check214 = false;
         public struct HwndInfo
         {
             public IntPtr Hwnd;//句柄
@@ -161,6 +162,7 @@ namespace autoClick
                 Bitmap bmp = null;
                 Int32 maxX = 0;
                 Int32 MaxY = 0;
+                check214 = check214Date();
                 WinApi.Rect rect = new WinApi.Rect();
                 try
                 {
@@ -265,13 +267,38 @@ namespace autoClick
             Int32 H = (int)Math.Round(hsv.H, 0);
             if(((H == 23 || H == 20) && hsv.S > 0.9 && hsv.S < 0.99 && hsv.V > 0.5 && hsv.V < 0.7) || (H >= 22 && H <= 24 && hsv.S > 0.98 && hsv.S <= 1 && hsv.V < 0.5 && hsv.V > 0.4))
                 result = true;
-            if (H == 0 && hsv.S > 0.6 && hsv.S < 0.7 && hsv.V > 0.4 && hsv.V < 0.5 )
-                result = true;
             if (point.X > 1098)
                 result = false;
-            if(point.X>= 9&&point.X<= 37&&point.Y>= 29 && point.Y<= 47)
+            #region --check 2.14heart
+            if(check214)
+            {
+                if ((H == 0 && hsv.S > 0.6 && hsv.S < 0.7 && hsv.V > 0.4 && hsv.V < 0.5) && check214heart(point))
+                    result = true;
+            }
+            #endregion
+            return result;
+        }
+        public Boolean check214Date()
+        {
+            DateTime date = DateTime.Now;
+            DateTime date214 = Convert.ToDateTime(String.Format("{0}-2-14", date.Year.ToString()));
+            TimeSpan t = date.Subtract(date214);
+            if (t.TotalDays > -4 && t.TotalDays < 2)
+                return true;
+            return false;
+        }
+        public Boolean check214heart(Point point)
+        {
+            Boolean result = true;
+            if (point.X >= 9 && point.X <= 37 && point.Y >= 29 && point.Y <= 47)
+                result = false;
+            if ((point.X >= 491 && point.X <= 497 && point.Y >= 469 && point.Y <= 499) || (point.X >= 499 && point.X <= 501 && point.Y >= 417 && point.Y <= 421))
                 result = false;
             if (point.X >= 543 && point.X <= 569 && point.Y >= 33 && point.Y <= 53)
+                result = false;
+            if (point.X >= 587 && point.X <= 627 && point.Y >= 570 && point.Y <= 610)
+                result = false;
+            if ((point.X == 591 && point.Y == 599) || (point.X == 593 && point.Y == 599))
                 result = false;
             return result;
         }
