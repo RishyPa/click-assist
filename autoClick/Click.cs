@@ -273,14 +273,16 @@ namespace autoClick
                 result = true;
             if (point.X > 1098)
                 result = false;
-            
-            if ((H == 47 && DataCompare(hsv.S, 0.18, 0.19) && DataCompare(hsv.V, 0.39, 0.40)) || ((H == 45||H==44) && DataCompare(hsv.S, 0.22, 0.33) && DataCompare(hsv.V, 0.6, 0.72)))
+
+            #region --check newfish
+            if ((H == 47 && DataCompare(hsv.S, 0.18, 0.19) && DataCompare(hsv.V, 0.39, 0.40)) || ((H == 45 || H == 44) && DataCompare(hsv.S, 0.22, 0.33) && DataCompare(hsv.V, 0.6, 0.72)))
             {
                 result = true;
-                if(point.X >= 1071 && point.X <= 1123 && point.Y >= 282 && point.Y <= 327)
+                if (point.X >= 1071 && point.X <= 1123 && point.Y >= 282 && point.Y <= 327)
                     result = false;
-            }
-               
+            } 
+            #endregion
+
             #region --check 2.14heart
             if (check214)
             {
