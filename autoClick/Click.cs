@@ -278,7 +278,7 @@ namespace autoClick
             if (((H == 47||H==48) && DataCompare(hsv.S, 0.18, 0.24) && DataCompare(hsv.V, 0.39, 0.63)) || ((H == 45 || H == 44) && DataCompare(hsv.S, 0.22, 0.33) && DataCompare(hsv.V, 0.6, 0.72)))
             {
                 result = true;
-                if (point.X >= 1071 && point.X <= 1123 && point.Y >= 282 && point.Y <= 327)
+                if (point.X >= 1061 && point.X <= 1133 && point.Y >= 272 && point.Y <= 337)
                     result = false;
             } 
             #endregion
