@@ -261,16 +261,28 @@ namespace autoClick
             }
             
         }
+        private Boolean DataCompare(float A, double value1, double value2)
+        {
+            return (A >= value1 && A <= value2);
+        }
         private Boolean HSVCheck(HSVColor hsv, Point point)
         {
             Boolean result = false;
             Int32 H = (int)Math.Round(hsv.H, 0);
-            if(((H == 23 || H == 20) && hsv.S > 0.9 && hsv.S < 0.99 && hsv.V > 0.5 && hsv.V < 0.7) || (H >= 22 && H <= 24 && hsv.S > 0.98 && hsv.S <= 1 && hsv.V < 0.5 && hsv.V > 0.4))
+            if(((H == 23 || H == 20) && DataCompare(hsv.S,0.9,0.99) && DataCompare(hsv.V, 0.5, 0.7)) || (H >= 22 && H <= 24 && DataCompare(hsv.S, 0.98, 1) && DataCompare(hsv.V, 0.4, 0.5)))
                 result = true;
             if (point.X > 1098)
                 result = false;
+            
+            if ((H == 47 && DataCompare(hsv.S, 0.18, 0.19) && DataCompare(hsv.V, 0.39, 0.40)) || ((H == 45||H==44) && DataCompare(hsv.S, 0.22, 0.33) && DataCompare(hsv.V, 0.6, 0.72)))
+            {
+                result = true;
+                if(point.X >= 1071 && point.X <= 1123 && point.Y >= 282 && point.Y <= 327)
+                    result = false;
+            }
+               
             #region --check 2.14heart
-            if(check214)
+            if (check214)
             {
                 if ((H == 0 && hsv.S > 0.6 && hsv.S < 0.7 && hsv.V > 0.4 && hsv.V < 0.5) && check214heart(point))
                     result = true;
