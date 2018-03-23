@@ -263,13 +263,13 @@ namespace autoClick
         }
         private Boolean DataCompare(float A, double value1, double value2)
         {
-            return (A >= value1 && A <= value2);
+            return (A > value1 && A < value2);
         }
         private Boolean HSVCheck(HSVColor hsv, Point point)
         {
             Boolean result = false;
             Int32 H = (int)Math.Round(hsv.H, 0);
-            if(((H == 23 || H == 20) && DataCompare(hsv.S,0.9,0.99) && DataCompare(hsv.V, 0.5, 0.7)) || (H >= 22 && H <= 24 && DataCompare(hsv.S, 0.98, 1) && DataCompare(hsv.V, 0.4, 0.5)))
+            if(((H == 23 || H == 20) && DataCompare(hsv.S,0.9,0.99) && DataCompare(hsv.V, 0.5, 0.7)) || (H >= 22 && H <= 24 && DataCompare(hsv.S, 0.98, 1.001) && DataCompare(hsv.V, 0.4, 0.5)))
                 result = true;
             if (point.X > 1098)
                 result = false;
