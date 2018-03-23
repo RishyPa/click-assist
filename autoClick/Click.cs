@@ -282,7 +282,7 @@ namespace autoClick
             {
                 result = true;
                 if ((point.X >= 1061 && point.X <= 1133 && point.Y >= 272 && point.Y <= 337)
-                    || (point.X >= 307 && point.X <= 332 && point.Y >= 95 && point.Y <= 107)
+                    || (point.X >= 303 && point.X <= 349 && point.Y >= 94 && point.Y <= 114)
                     || (point.X >= 976 && point.X <= 999 && point.Y >= 336 && point.Y <= 358))
                     result = false;
             } 
