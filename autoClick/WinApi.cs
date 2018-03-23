@@ -30,7 +30,9 @@ namespace autoClick
             Shift = 4,
             Windows = 8
         }
-
+        /// <summary>
+        /// 范围
+        /// </summary>
         public struct Rect
         {
             public int Left;

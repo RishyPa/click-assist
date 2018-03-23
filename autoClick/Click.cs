@@ -10,6 +10,9 @@ namespace autoClick
     {
         public Int32 ClickTimes = 0;
         public Boolean check214 = false;
+        /// <summary>
+        /// 设备句柄信息
+        /// </summary>
         public struct HwndInfo
         {
             public IntPtr Hwnd;//句柄

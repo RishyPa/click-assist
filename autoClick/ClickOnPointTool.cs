@@ -9,6 +9,9 @@ using System.Windows.Forms;
 
 namespace autoClick
 {
+    /// <summary>
+    /// testTool
+    /// </summary>
     public class ClickOnPointTool
     {
 

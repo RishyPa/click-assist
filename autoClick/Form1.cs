@@ -445,7 +445,11 @@ namespace autoClick
             string text = JsonConvert.SerializeObject(pointListDic);
             File.WriteAllText(path, text, Encoding.UTF8);
         }
-
+        /// <summary>
+        /// 退出关闭线程
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)
         {
             this.notifyIcon1.Dispose();

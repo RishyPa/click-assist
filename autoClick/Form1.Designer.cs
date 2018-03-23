@@ -41,6 +41,12 @@ namespace autoClick
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.interval = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hexColorValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.wText = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -57,22 +63,15 @@ namespace autoClick
             this.showControlButton = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.textClickTimes = new System.Windows.Forms.TextBox();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.interval = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hexColorValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wText = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(79, 49);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
+            this.button1.Location = new System.Drawing.Point(59, 39);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(57, 29);
+            this.button1.Size = new System.Drawing.Size(43, 23);
             this.button1.TabIndex = 0;
             this.button1.Text = "开始";
             this.button1.UseVisualStyleBackColor = true;
@@ -80,10 +79,9 @@ namespace autoClick
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(120, 15);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox1.Location = new System.Drawing.Point(90, 12);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(97, 25);
+            this.textBox1.Size = new System.Drawing.Size(74, 21);
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = "100";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -91,30 +89,27 @@ namespace autoClick
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(-1, 19);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(-1, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 15);
+            this.label1.Size = new System.Drawing.Size(89, 12);
             this.label1.TabIndex = 2;
             this.label1.Text = "扫描点间隔时间";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 55);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(2, 44);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(68, 15);
+            this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 3;
             this.label2.Text = "按F9开始";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(228, 19);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(171, 15);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(23, 15);
+            this.label3.Size = new System.Drawing.Size(17, 12);
             this.label3.TabIndex = 4;
             this.label3.Text = "ms";
             // 
@@ -131,12 +126,12 @@ namespace autoClick
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(111, 30);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(97, 26);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(110, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -154,168 +149,13 @@ namespace autoClick
             this.hexColorValue,
             this.wText,
             this.Status});
-            this.dataGridView1.Location = new System.Drawing.Point(3, 118);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGridView1.Location = new System.Drawing.Point(2, 94);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 100;
-            this.dataGridView1.Size = new System.Drawing.Size(569, 288);
+            this.dataGridView1.Size = new System.Drawing.Size(427, 230);
             this.dataGridView1.TabIndex = 6;
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView1_CellValueChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(144, 56);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(91, 15);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "按F10记录点";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.ForeColor = System.Drawing.Color.Red;
-            this.label5.Location = new System.Drawing.Point(259, 19);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(52, 15);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "未开始";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(25, 86);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(84, 23);
-            this.comboBox1.TabIndex = 8;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
-            // list_title_text
-            // 
-            this.list_title_text.Location = new System.Drawing.Point(121, 85);
-            this.list_title_text.Margin = new System.Windows.Forms.Padding(4);
-            this.list_title_text.Name = "list_title_text";
-            this.list_title_text.Size = new System.Drawing.Size(96, 25);
-            this.list_title_text.TabIndex = 9;
-            // 
-            // add_btn
-            // 
-            this.add_btn.Location = new System.Drawing.Point(227, 84);
-            this.add_btn.Margin = new System.Windows.Forms.Padding(4);
-            this.add_btn.Name = "add_btn";
-            this.add_btn.Size = new System.Drawing.Size(40, 29);
-            this.add_btn.TabIndex = 10;
-            this.add_btn.Text = "增";
-            this.add_btn.UseVisualStyleBackColor = true;
-            this.add_btn.Click += new System.EventHandler(this.add_btn_Click);
-            // 
-            // del_btn
-            // 
-            this.del_btn.Location = new System.Drawing.Point(313, 84);
-            this.del_btn.Margin = new System.Windows.Forms.Padding(4);
-            this.del_btn.Name = "del_btn";
-            this.del_btn.Size = new System.Drawing.Size(40, 29);
-            this.del_btn.TabIndex = 10;
-            this.del_btn.Text = "删";
-            this.del_btn.UseVisualStyleBackColor = true;
-            this.del_btn.Click += new System.EventHandler(this.del_btn_Click);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(243, 55);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(136, 15);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "按F11记录点、色值";
-            // 
-            // update_btn
-            // 
-            this.update_btn.Location = new System.Drawing.Point(268, 84);
-            this.update_btn.Margin = new System.Windows.Forms.Padding(4);
-            this.update_btn.Name = "update_btn";
-            this.update_btn.Size = new System.Drawing.Size(40, 29);
-            this.update_btn.TabIndex = 12;
-            this.update_btn.Text = "改";
-            this.update_btn.UseVisualStyleBackColor = true;
-            this.update_btn.Click += new System.EventHandler(this.update_btn_Click);
-            // 
-            // windowText
-            // 
-            this.windowText.FormattingEnabled = true;
-            this.windowText.Items.AddRange(new object[] {
-            "Clicker Heroes",
-            "Realm Grinder"});
-            this.windowText.Location = new System.Drawing.Point(313, 15);
-            this.windowText.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.windowText.Name = "windowText";
-            this.windowText.Size = new System.Drawing.Size(144, 23);
-            this.windowText.TabIndex = 13;
-            this.windowText.Text = "Clicker Heroes";
-            this.windowText.SelectedIndexChanged += new System.EventHandler(this.windowText_SelectedIndexChanged);
-            // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            // 
-            // testCheck
-            // 
-            this.testCheck.AutoSize = true;
-            this.testCheck.Location = new System.Drawing.Point(493, 88);
-            this.testCheck.Name = "testCheck";
-            this.testCheck.Size = new System.Drawing.Size(59, 19);
-            this.testCheck.TabIndex = 14;
-            this.testCheck.Text = "测试";
-            this.testCheck.UseVisualStyleBackColor = true;
-            // 
-            // testPointText
-            // 
-            this.testPointText.Location = new System.Drawing.Point(387, 84);
-            this.testPointText.Name = "testPointText";
-            this.testPointText.Size = new System.Drawing.Size(100, 25);
-            this.testPointText.TabIndex = 15;
-            this.testPointText.Text = "1113,200";
-            // 
-            // showControlButton
-            // 
-            this.showControlButton.Location = new System.Drawing.Point(477, 15);
-            this.showControlButton.Name = "showControlButton";
-            this.showControlButton.Size = new System.Drawing.Size(60, 23);
-            this.showControlButton.TabIndex = 16;
-            this.showControlButton.Text = "隐/显";
-            this.showControlButton.UseVisualStyleBackColor = true;
-            this.showControlButton.Click += new System.EventHandler(this.showControlButton_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(384, 55);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(128, 15);
-            this.label7.TabIndex = 17;
-            this.label7.Text = "按F8进行连续点击";
-            // 
-            // textClickTimes
-            // 
-            this.textClickTimes.Location = new System.Drawing.Point(518, 49);
-            this.textClickTimes.Name = "textClickTimes";
-            this.textClickTimes.Size = new System.Drawing.Size(33, 25);
-            this.textClickTimes.TabIndex = 18;
-            this.textClickTimes.Text = "0";
-            this.textClickTimes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.textClickTimes.TextChanged += new System.EventHandler(this.textClickTimes_TextChanged);
             // 
             // Column1
             // 
@@ -359,13 +199,162 @@ namespace autoClick
             this.Status.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.Status.HeaderText = "禁用";
             this.Status.Name = "Status";
-            this.Status.Width = 43;
+            this.Status.Width = 35;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(108, 45);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(71, 12);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "按F10记录点";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.Color.Red;
+            this.label5.Location = new System.Drawing.Point(189, 15);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(41, 12);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "未开始";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(19, 69);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(64, 20);
+            this.comboBox1.TabIndex = 8;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // list_title_text
+            // 
+            this.list_title_text.Location = new System.Drawing.Point(91, 68);
+            this.list_title_text.Name = "list_title_text";
+            this.list_title_text.Size = new System.Drawing.Size(73, 21);
+            this.list_title_text.TabIndex = 9;
+            // 
+            // add_btn
+            // 
+            this.add_btn.Location = new System.Drawing.Point(170, 67);
+            this.add_btn.Name = "add_btn";
+            this.add_btn.Size = new System.Drawing.Size(30, 23);
+            this.add_btn.TabIndex = 10;
+            this.add_btn.Text = "增";
+            this.add_btn.UseVisualStyleBackColor = true;
+            this.add_btn.Click += new System.EventHandler(this.add_btn_Click);
+            // 
+            // del_btn
+            // 
+            this.del_btn.Location = new System.Drawing.Point(235, 67);
+            this.del_btn.Name = "del_btn";
+            this.del_btn.Size = new System.Drawing.Size(30, 23);
+            this.del_btn.TabIndex = 10;
+            this.del_btn.Text = "删";
+            this.del_btn.UseVisualStyleBackColor = true;
+            this.del_btn.Click += new System.EventHandler(this.del_btn_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(182, 44);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(107, 12);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "按F11记录点、色值";
+            // 
+            // update_btn
+            // 
+            this.update_btn.Location = new System.Drawing.Point(201, 67);
+            this.update_btn.Name = "update_btn";
+            this.update_btn.Size = new System.Drawing.Size(30, 23);
+            this.update_btn.TabIndex = 12;
+            this.update_btn.Text = "改";
+            this.update_btn.UseVisualStyleBackColor = true;
+            this.update_btn.Click += new System.EventHandler(this.update_btn_Click);
+            // 
+            // windowText
+            // 
+            this.windowText.FormattingEnabled = true;
+            this.windowText.Items.AddRange(new object[] {
+            "Clicker Heroes",
+            "Realm Grinder"});
+            this.windowText.Location = new System.Drawing.Point(235, 12);
+            this.windowText.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.windowText.Name = "windowText";
+            this.windowText.Size = new System.Drawing.Size(109, 20);
+            this.windowText.TabIndex = 13;
+            this.windowText.Text = "Clicker Heroes";
+            this.windowText.SelectedIndexChanged += new System.EventHandler(this.windowText_SelectedIndexChanged);
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
+            // testCheck
+            // 
+            this.testCheck.AutoSize = true;
+            this.testCheck.Location = new System.Drawing.Point(370, 70);
+            this.testCheck.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.testCheck.Name = "testCheck";
+            this.testCheck.Size = new System.Drawing.Size(48, 16);
+            this.testCheck.TabIndex = 14;
+            this.testCheck.Text = "测试";
+            this.testCheck.UseVisualStyleBackColor = true;
+            // 
+            // testPointText
+            // 
+            this.testPointText.Location = new System.Drawing.Point(290, 67);
+            this.testPointText.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.testPointText.Name = "testPointText";
+            this.testPointText.Size = new System.Drawing.Size(76, 21);
+            this.testPointText.TabIndex = 15;
+            this.testPointText.Text = "1113,200";
+            // 
+            // showControlButton
+            // 
+            this.showControlButton.Location = new System.Drawing.Point(358, 12);
+            this.showControlButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.showControlButton.Name = "showControlButton";
+            this.showControlButton.Size = new System.Drawing.Size(45, 18);
+            this.showControlButton.TabIndex = 16;
+            this.showControlButton.Text = "隐/显";
+            this.showControlButton.UseVisualStyleBackColor = true;
+            this.showControlButton.Click += new System.EventHandler(this.showControlButton_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(288, 44);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(101, 12);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "按F8进行连续点击";
+            // 
+            // textClickTimes
+            // 
+            this.textClickTimes.Location = new System.Drawing.Point(388, 39);
+            this.textClickTimes.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textClickTimes.Name = "textClickTimes";
+            this.textClickTimes.Size = new System.Drawing.Size(26, 21);
+            this.textClickTimes.TabIndex = 18;
+            this.textClickTimes.Text = "0";
+            this.textClickTimes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textClickTimes.TextChanged += new System.EventHandler(this.textClickTimes_TextChanged);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(575, 404);
+            this.ClientSize = new System.Drawing.Size(431, 323);
             this.Controls.Add(this.textClickTimes);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.showControlButton);
@@ -386,7 +375,6 @@ namespace autoClick
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "鼠标连点器";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing_1);
