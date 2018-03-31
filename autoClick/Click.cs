@@ -278,7 +278,7 @@ namespace autoClick
                 result = false;
 
             #region --check newfish
-            if (((H == 47||H==48) && DataCompare(hsv.S, 0.18, 0.24) && DataCompare(hsv.V, 0.39, 0.63)&&(hsv.S != 0.1813954 && hsv.V != 0.4215686)) || ((H == 45 || H == 44) && DataCompare(hsv.S, 0.22, 0.33) && DataCompare(hsv.V, 0.6, 0.72)))
+            if (((H == 47||H==48) && DataCompare(hsv.S, 0.18, 0.24) && DataCompare(hsv.V, 0.39, 0.63)&&(hsv.S != 0.1813954 && hsv.V != 0.4215686)) || ((H == 45 || H == 44) && DataCompare(hsv.S, 0.22, 0.33) && DataCompare(hsv.V, 0.6, 0.72))&&(hsv.S != 0.2222222 && hsv.V != 0.6470588))
             {
                 result = true;
                 if ((point.X == 1037 && point.Y == 35)
