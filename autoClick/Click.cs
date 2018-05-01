@@ -278,7 +278,7 @@ namespace autoClick
                 result = false;
 
             #region --check newfish
-            if (((H == 47||H==48) && DataCompare(hsv.S, 0.18, 0.24) && DataCompare(hsv.V, 0.39, 0.63)&&(hsv.S != 0.1813954 && hsv.V != 0.4215686)) || ((H == 45 || H == 44) && DataCompare(hsv.S, 0.22, 0.33) && DataCompare(hsv.V, 0.6, 0.72))&&(hsv.S != 0.2222222 && hsv.V != 0.6470588))
+            /*if (((H == 47||H==48) && DataCompare(hsv.S, 0.18, 0.24) && DataCompare(hsv.V, 0.39, 0.63)&&(hsv.S != 0.1813954 && hsv.V != 0.4215686)) || ((H == 45 || H == 44) && DataCompare(hsv.S, 0.22, 0.33) && DataCompare(hsv.V, 0.6, 0.72))&&(hsv.S != 0.2222222 && hsv.V != 0.6470588))
             {
                 result = true;
                 if ((point.X == 1037 && point.Y == 35)
@@ -287,7 +287,7 @@ namespace autoClick
                     || (point.X >= 963 && point.X <= 1017 && point.Y >= 325 && point.Y <= 409)
                     || (point.X >= 797 && point.X <= 849 && point.Y >= 595 && point.Y <= 622))
                     result = false;
-            } 
+            }*/ 
             #endregion
 
             #region --check 2.14heart
